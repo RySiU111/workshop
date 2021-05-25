@@ -12,7 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using Workshop.Infra;
+using Workshop.API.Data;
+using Workshop.API.Extensions;
 
 namespace Workshop.API
 {
@@ -37,6 +38,7 @@ namespace Workshop.API
             services.AddDbContext<WorkshopContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("workshop"))
             );
+            services.AddIdentityServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,6 +55,7 @@ namespace Workshop.API
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
