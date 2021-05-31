@@ -14,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Workshop.API.Data;
 using Workshop.API.Extensions;
+using Workshop.API.Interfaces;
+using Workshop.API.Services;
 
 namespace Workshop.API
 {
@@ -39,6 +41,7 @@ namespace Workshop.API
                 options.UseSqlite(Configuration.GetConnectionString("workshop"))
             );
             services.AddIdentityServices(Configuration);
+            services.AddScoped<ITokenService, TokenService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

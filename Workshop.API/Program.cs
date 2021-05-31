@@ -26,8 +26,9 @@ namespace Workshop.API
             {
                 var context = services.GetRequiredService<WorkshopContext>();
                 var userManager = services.GetRequiredService<UserManager<User>>();
+                var roleManager = services.GetRequiredService<RoleManager<Role>>();
                 await context.Database.MigrateAsync();
-                await Seed.SeedUsers(userManager);
+                await Seed.SeedUsers(userManager, roleManager);
             }
             catch (Exception e)
             {
