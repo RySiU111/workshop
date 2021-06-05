@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Workshop.API.Data;
 using Workshop.API.Extensions;
+using Workshop.API.Helpers;
 using Workshop.API.Interfaces;
 using Workshop.API.Services;
 
@@ -40,6 +41,7 @@ namespace Workshop.API
             services.AddDbContext<WorkshopContext>(options =>
                 options.UseSqlite(Configuration.GetConnectionString("workshop"))
             );
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddIdentityServices(Configuration);
             services.AddScoped<ITokenService, TokenService>();
         }
