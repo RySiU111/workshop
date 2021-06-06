@@ -44,6 +44,7 @@ namespace Workshop.API
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddIdentityServices(Configuration);
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
