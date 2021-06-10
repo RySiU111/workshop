@@ -19,8 +19,8 @@ namespace Workshop.API.Controllers
         }
 
         [HttpGet]
-        [Route("configs")]
-        public async Task<ActionResult<IEnumerable<ComponentConfig>>> GetComponentConfigs([FromQuery]string componentName)
+        [Route("config")]
+        public async Task<ActionResult<ComponentConfig>> GetComponentConfigs([FromQuery]string componentName)
         {
             if(string.IsNullOrEmpty(componentName))
                 return BadRequest();
