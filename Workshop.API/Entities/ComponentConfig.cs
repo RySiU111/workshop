@@ -1,10 +1,14 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Workshop.API.Entities
 {
     public class ComponentConfig
     {
-        public int Id { get; set; }
+        [Key]
+        [RegularExpression("[^!@#$%^&*()-+={}[\\]:\";'<>,\\.\\/\\?\\\\|\n]+")]
         public string ComponentName { get; set; }
+        [Required]
         public string Data { get; set; }
-        public bool IsActive { get; set; }
+        public bool IsActive { get; set; } = true;
     }
 }

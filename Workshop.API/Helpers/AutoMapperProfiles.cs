@@ -9,6 +9,7 @@ namespace Workshop.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDto, User>();
+            
         }
     }
 }

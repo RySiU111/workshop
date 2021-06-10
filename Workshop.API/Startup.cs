@@ -64,6 +64,8 @@ namespace Workshop.API
             app.UseAuthentication();
             app.UseAuthorization();
 
+            app.UseCors(o => o.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
