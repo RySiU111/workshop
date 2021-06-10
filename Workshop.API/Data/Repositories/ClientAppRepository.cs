@@ -30,11 +30,10 @@ namespace Workshop.API.Data.Repositories
             _context.ComponentConfigs.Update(componentConfig);
         }
 
-        public async Task<List<ComponentConfig>> GetComponentConfigs(string componentName)
+        public async Task<ComponentConfig> GetComponentConfig(string componentName)
         {
             var configs = await _context.ComponentConfigs
-                .Where(c => c.ComponentName == componentName)
-                .ToListAsync();
+                .FirstOrDefaultAsync(c => c.ComponentName == componentName);
 
             return configs;
         }

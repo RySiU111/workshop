@@ -25,9 +25,9 @@ namespace Workshop.API.Controllers
             if(string.IsNullOrEmpty(componentName))
                 return BadRequest();
 
-            var componentConfigs = await _unitOfWork.ClientAppRepository.GetComponentConfigs(componentName);
+            var componentConfig = await _unitOfWork.ClientAppRepository.GetComponentConfig(componentName);
 
-            return Ok(componentConfigs);
+            return Ok(componentConfig);
         }
 
         [HttpPost]
