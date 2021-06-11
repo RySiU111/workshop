@@ -53,12 +53,12 @@ namespace Workshop.API.Controllers
             if(serviceRequest == null)
                 return BadRequest();
 
-            var customer = await _unitOfWork.CarServiceRepository.FindCustomer(serviceRequest.Custormer);
+            var customer = await _unitOfWork.CarServiceRepository.FindCustomer(serviceRequest.Customer);
 
             if(customer != null)
             {
                 serviceRequest.CustomerId = customer.Id;
-                serviceRequest.Custormer = null;
+                serviceRequest.Customer = null;
             }
 
             _unitOfWork.CarServiceRepository.AddServiceRequest(serviceRequest);

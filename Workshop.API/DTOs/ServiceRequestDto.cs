@@ -14,6 +14,6 @@ namespace Workshop.API.DTOs
         public string EngineDescription { get; set; }
         public int Power { get; set; }
         public ServiceRequestState State { get; set; } = 0;
-        public CustomerDto Custormer { get; set; }
+        public CustomerDto Customer { get; set; }
     }
 }

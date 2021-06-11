@@ -32,6 +32,6 @@ namespace Workshop.API.Entities
         public int Power { get; set; }
         public ServiceRequestState State { get; set; } = 0;
 
-        public Customer Custormer { get; set; }
+        public Customer Customer { get; set; }
     }
 }

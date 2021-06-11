@@ -29,7 +29,7 @@ namespace Workshop.API.Data.Repositories
         public async Task<ServiceRequest> GetServiceRequest(int id)
         { 
             var serviceRequest = await _context.ServiceRequests
-                .Include(sr => sr.Custormer)
+                .Include(sr => sr.Customer)
                 .FirstOrDefaultAsync(sr => sr.Id == id);
 
             return serviceRequest;
@@ -38,7 +38,7 @@ namespace Workshop.API.Data.Repositories
         public async Task<List<ServiceRequest>> GetServiceRequests()
         {
             var serviceRequests = await _context.ServiceRequests
-                .Include(sr => sr.Custormer)
+                .Include(sr => sr.Customer)
                 .ToListAsync();
 
             return serviceRequests;
