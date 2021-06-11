@@ -14,6 +14,7 @@ namespace Workshop.API.Data
         }
 
         public ClientAppRepository ClientAppRepository => new ClientAppRepository(_context);
+        public CarServiceRepository CarServiceRepository => new CarServiceRepository(_context);
 
         public async Task<bool> SaveAsync()
         {

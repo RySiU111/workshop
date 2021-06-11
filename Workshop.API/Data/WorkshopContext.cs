@@ -12,6 +12,8 @@ namespace Workshop.API.Data
         public WorkshopContext(DbContextOptions options) : base(options) { }
 
         public DbSet<ComponentConfig> ComponentConfigs { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<ServiceRequest> ServiceRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
