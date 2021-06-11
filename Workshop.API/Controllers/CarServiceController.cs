@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Workshop.API.DTOs;
 using Workshop.API.Entities;
 using Workshop.API.Interfaces;
 
@@ -11,10 +13,12 @@ namespace Workshop.API.Controllers
     public class CarServiceController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public CarServiceController(IUnitOfWork unitOfWork)
+        public CarServiceController(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -23,7 +27,9 @@ namespace Workshop.API.Controllers
         {
             var serviceRequests = await _unitOfWork.CarServiceRepository.GetServiceRequests();
 
-            return Ok(serviceRequests);
+            var response = _mapper.Map<ServiceRequestDto[]>(serviceRequests);
+
+            return Ok(response);
         }
 
         [HttpGet]
@@ -35,7 +41,9 @@ namespace Workshop.API.Controllers
 
             var serviceRequest = await _unitOfWork.CarServiceRepository.GetServiceRequest(id);
 
-            return Ok(serviceRequest);
+            var response = _mapper.Map<ServiceRequestDto>(serviceRequest);
+
+            return Ok(response);
         }
 
         [HttpPost]
