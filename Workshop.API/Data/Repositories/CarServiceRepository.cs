@@ -47,8 +47,8 @@ namespace Workshop.API.Data.Repositories
         public async Task<Customer> FindCustomer(Customer c2)
         {
             return await _context.Customers.FirstOrDefaultAsync(c1 => 
-                c1.Name == c2.Name && c1.Surname == c2.Surname &&
-                c1.PhoneNumber == c2.PhoneNumber && c1.Email == c2.Email);
+                c1.Name.ToLower() == c2.Name.ToLower() && c1.Surname.ToLower() == c2.Surname.ToLower() &&
+                c1.PhoneNumber.ToLower() == c2.PhoneNumber.ToLower() && c1.Email.ToLower() == c2.Email.ToLower());
         }
     }
 }
