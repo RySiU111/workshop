@@ -9,10 +9,11 @@ namespace Workshop.API.Data
         IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, 
         IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
-        public WorkshopContext(DbContextOptions options) : base(options)
-        {
+        public WorkshopContext(DbContextOptions options) : base(options) { }
 
-        }
+        public DbSet<ComponentConfig> ComponentConfigs { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<ServiceRequest> ServiceRequests { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
