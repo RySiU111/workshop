@@ -87,5 +87,27 @@ namespace Workshop.API.Controllers
 
             return BadRequest();
         }
+
+        [HttpDelete]
+        [Route("serviceRequest")]
+        public async Task<IActionResult> DeleteServiceRequest([FromQuery]int serviceRequestId)
+        {
+            if(serviceRequestId <= 0)
+                return BadRequest();
+
+            var serviceRequest = await _unitOfWork.CarServiceRepository.GetServiceRequest(serviceRequestId);
+
+            if(serviceRequest == null)
+                return BadRequest();
+
+            _unitOfWork.CarServiceRepository.DeleteServiceRequest(serviceRequest);
+            
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok();
+
+            return StatusCode(500);
+        }
     }
 }

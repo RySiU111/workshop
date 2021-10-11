@@ -13,6 +13,7 @@ namespace Workshop.API.Entities
     {
         public int Id { get; set; }
         public int CustomerId { get; set; }
+        public bool IsActive { get; set; } = true;
         [Required]
         [MaxLength(1000)]
         public string Description { get; set; }

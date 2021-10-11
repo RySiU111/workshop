@@ -30,6 +30,7 @@ namespace Workshop.API.Data.Repositories
         { 
             var serviceRequest = await _context.ServiceRequests
                 .Include(sr => sr.Customer)
+                .Where(sr => sr.IsActive)
                 .FirstOrDefaultAsync(sr => sr.Id == id);
 
             return serviceRequest;
@@ -39,6 +40,7 @@ namespace Workshop.API.Data.Repositories
         {
             var serviceRequests = await _context.ServiceRequests
                 .Include(sr => sr.Customer)
+                .Where(sr => sr.IsActive)
                 .ToListAsync();
 
             return serviceRequests;
@@ -49,6 +51,12 @@ namespace Workshop.API.Data.Repositories
             return await _context.Customers.FirstOrDefaultAsync(c1 => 
                 c1.Name.ToLower() == c2.Name.ToLower() && c1.Surname.ToLower() == c2.Surname.ToLower() &&
                 c1.PhoneNumber.ToLower() == c2.PhoneNumber.ToLower() && c1.Email.ToLower() == c2.Email.ToLower());
+        }
+
+        public void DeleteServiceRequest(ServiceRequest serviceRequest)
+        {
+            serviceRequest.IsActive = false;
+            _context.ServiceRequests.Update(serviceRequest);
         }
     }
 }
