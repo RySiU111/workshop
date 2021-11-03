@@ -11,6 +11,8 @@ namespace Workshop.API.Helpers
             CreateMap<RegisterDto, User>();
             CreateMap<Customer, CustomerDto>();
             CreateMap<ServiceRequest, ServiceRequestDto>();
+            CreateMap<KanbanTask, KanbanTaskDto>();
+            CreateMap<KanbanTask, KanbanTaskDetailsDto>();
         }
     }
 }

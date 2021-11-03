@@ -58,5 +58,17 @@ namespace Workshop.API.Data.Repositories
             serviceRequest.IsActive = false;
             _context.ServiceRequests.Update(serviceRequest);
         }
+
+        public void AcceptServiceRequest(int id)
+        {
+            var serviceRequest = _context.ServiceRequests
+                .FirstOrDefault(s => s.Id == id);
+
+            if(serviceRequest != null)
+            {
+                serviceRequest.State = ServiceRequestState.Accepted;
+                _context.ServiceRequests.Update(serviceRequest);
+            }
+        }
     }
 }

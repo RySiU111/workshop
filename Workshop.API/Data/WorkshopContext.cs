@@ -14,6 +14,7 @@ namespace Workshop.API.Data
         public DbSet<ComponentConfig> ComponentConfigs { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<ServiceRequest> ServiceRequests { get; set; }
+        public DbSet<KanbanTask> KanbanTasks { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

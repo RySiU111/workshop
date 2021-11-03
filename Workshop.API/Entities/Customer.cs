@@ -17,7 +17,6 @@ namespace Workshop.API.Entities
         [MaxLength(15)]
         [RegularExpression("\\d+")]
         public string PhoneNumber { get; set; }
-        [Required]
         [MaxLength(100)]
         [EmailAddress]
         public string Email { get; set; }

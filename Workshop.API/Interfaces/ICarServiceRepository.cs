@@ -12,5 +12,6 @@ namespace Workshop.API.Interfaces
         void EditServiceRequest(ServiceRequest serviceRequest);
         Task<Customer> FindCustomer(Customer customer);
         void DeleteServiceRequest(ServiceRequest serviceRequest);
+        void AcceptServiceRequest(int id);
     }
 }
