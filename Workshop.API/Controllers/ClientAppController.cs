@@ -45,7 +45,7 @@ namespace Workshop.API.Controllers
             if(result)
                 return Ok(componentConfig);
 
-            return BadRequest();
+            return StatusCode(500);
         }
 
         [HttpDelete]
@@ -62,7 +62,7 @@ namespace Workshop.API.Controllers
             if(result)
                 return Ok(componentConfig);
 
-            return BadRequest();
+            return StatusCode(500);
         }
 
         [HttpPut]
@@ -80,7 +80,7 @@ namespace Workshop.API.Controllers
             if(result)
                 return Ok(componentConfig);
 
-            return BadRequest();
+            return StatusCode(500);
         }
     }
 }

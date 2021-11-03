@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Workshop.API.Data;
@@ -9,9 +10,10 @@ using Workshop.API.Data;
 namespace Workshop.API.Migrations
 {
     [DbContext(typeof(WorkshopContext))]
-    partial class WorkshopContextModelSnapshot : ModelSnapshot
+    [Migration("20211103180550_KanbanTaskInit")]
+    partial class KanbanTaskInit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,6 +132,7 @@ namespace Workshop.API.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
@@ -151,66 +154,6 @@ namespace Workshop.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("Workshop.API.Entities.KanbanTask", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("DateOfActualRealizatoin")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DateOfCreation")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<DateTime>("DateOfPlannedRealization")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("EngineDescription")
-                        .HasMaxLength(300)
-                        .HasColumnType("character varying(300)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Make")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Model")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("text");
-
-                    b.Property<int>("Power")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProductionYear")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ServiceRequestId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("VIN")
-                        .IsRequired()
-                        .HasMaxLength(17)
-                        .HasColumnType("character varying(17)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ServiceRequestId");
-
-                    b.ToTable("KanbanTasks");
                 });
 
             modelBuilder.Entity("Workshop.API.Entities.Role", b =>
@@ -406,17 +349,6 @@ namespace Workshop.API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Workshop.API.Entities.KanbanTask", b =>
-                {
-                    b.HasOne("Workshop.API.Entities.ServiceRequest", "ServiceRequest")
-                        .WithMany()
-                        .HasForeignKey("ServiceRequestId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ServiceRequest");
                 });
 
             modelBuilder.Entity("Workshop.API.Entities.ServiceRequest", b =>

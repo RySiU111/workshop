@@ -66,9 +66,9 @@ namespace Workshop.API.Controllers
             var result = await _unitOfWork.SaveAsync();
 
             if(result)
-                return Ok();
+                return StatusCode(204);
 
-            return BadRequest();
+            return StatusCode(500);
         }
 
         [HttpPut]
@@ -83,9 +83,9 @@ namespace Workshop.API.Controllers
             var result = await _unitOfWork.SaveAsync();
 
             if(result)
-                return Ok();
+                return StatusCode(204);
 
-            return BadRequest();
+            return StatusCode(500);
         }
 
         [HttpDelete]
@@ -98,14 +98,14 @@ namespace Workshop.API.Controllers
             var serviceRequest = await _unitOfWork.CarServiceRepository.GetServiceRequest(serviceRequestId);
 
             if(serviceRequest == null)
-                return BadRequest();
+                return StatusCode(401);
 
             _unitOfWork.CarServiceRepository.DeleteServiceRequest(serviceRequest);
             
             var result = await _unitOfWork.SaveAsync();
 
             if(result)
-                return Ok();
+                return StatusCode(204);
 
             return StatusCode(500);
         }

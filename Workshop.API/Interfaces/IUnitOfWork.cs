@@ -7,6 +7,7 @@ namespace Workshop.API.Interfaces
     {
         ClientAppRepository ClientAppRepository { get; }
         CarServiceRepository CarServiceRepository { get; }
+        KanbanRepository KanbanRepository { get; }
         Task<bool> SaveAsync();
     }
 }
