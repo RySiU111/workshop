@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -23,9 +25,16 @@ namespace Workshop.API.Controllers
 
         [HttpGet]
         [Route("serviceRequests")]
-        public async Task<ActionResult<IEnumerable<ServiceRequest>>> GetServiceRequests()
+        public async Task<ActionResult<IEnumerable<ServiceRequest>>> GetServiceRequests(
+            [FromQuery]ServiceRequestState? state)
         {
-            var serviceRequests = await _unitOfWork.CarServiceRepository.GetServiceRequests();
+            IEnumerable<ServiceRequest> serviceRequests;
+
+            if(state.HasValue && Enum.GetValues<ServiceRequestState>().Any(e => e == state))
+                serviceRequests = await _unitOfWork.CarServiceRepository
+                    .GetServiceRequestsByState(state.Value);
+            else
+                serviceRequests = await _unitOfWork.CarServiceRepository.GetServiceRequests();
 
             var response = _mapper.Map<ServiceRequestDto[]>(serviceRequests);
 
@@ -48,7 +57,8 @@ namespace Workshop.API.Controllers
 
         [HttpPost]
         [Route("serviceRequest")]
-        public async Task<ActionResult<ServiceRequest>> AddServiceRequest([FromBody]ServiceRequest serviceRequest)
+        public async Task<ActionResult<ServiceRequest>> AddServiceRequest(
+            [FromBody]ServiceRequest serviceRequest)
         {
             if(serviceRequest == null)
                 return BadRequest();
@@ -73,11 +83,34 @@ namespace Workshop.API.Controllers
 
         [HttpPut]
         [Route("serviceRequest")]
-        public async Task<ActionResult<ServiceRequest>> EditServiceRequest([FromBody]ServiceRequest serviceRequest)
+        public async Task<ActionResult> EditServiceRequest([FromBody]ServiceRequest serviceRequest)
         {
             if(serviceRequest == null)
                 return BadRequest();
 
+            _unitOfWork.CarServiceRepository.EditServiceRequest(serviceRequest);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpPut]
+        [Route("serviceRequest/reject")]
+        public async Task<ActionResult> RejectServiceRequest([FromQuery]int id)
+        {
+            if(id <= 0)
+                return BadRequest();
+
+            var serviceRequest = await _unitOfWork.CarServiceRepository.GetServiceRequest(id);
+
+            if(serviceRequest == null)
+                return StatusCode(404);
+
+            serviceRequest.State = ServiceRequestState.Rejected;
             _unitOfWork.CarServiceRepository.EditServiceRequest(serviceRequest);
 
             var result = await _unitOfWork.SaveAsync();

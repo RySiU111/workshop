@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.Entities;
 using Workshop.API.Interfaces;
@@ -65,6 +66,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("config")]
         public async Task<ActionResult<ComponentConfig>> EditComponentConfig([FromBody]ComponentConfig componentConfig)

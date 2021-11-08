@@ -93,7 +93,19 @@ namespace Workshop.API.Controllers
             var kanbanTaskToDelete = await _unitOfWork.KanbanRepository.GetKanbanTask(id);
 
             if(kanbanTaskToDelete == null)
-                return StatusCode(401);
+                return StatusCode(404);
+
+            if(kanbanTaskToDelete.ServiceRequestId > 0)
+            {
+                var serviceRequest = await _unitOfWork.CarServiceRepository
+                    .GetServiceRequest(kanbanTaskToDelete.ServiceRequestId);
+
+                if(serviceRequest != null)
+                {
+                    serviceRequest.State = ServiceRequestState.ClientRejection;
+                    _unitOfWork.CarServiceRepository.EditServiceRequest(serviceRequest);
+                }
+            }
 
             _unitOfWork.KanbanRepository.DeleteKanbanTask(kanbanTaskToDelete);
 

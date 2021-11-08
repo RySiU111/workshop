@@ -6,7 +6,8 @@ namespace Workshop.API.Entities
     {
         New = 0,
         Accepted = 1,
-        Rejected = 2
+        Rejected = 2,
+        ClientRejection = 3
     }
 
     public class ServiceRequest
