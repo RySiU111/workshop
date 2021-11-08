@@ -13,5 +13,6 @@ namespace Workshop.API.Interfaces
         Task<Customer> FindCustomer(Customer customer);
         void DeleteServiceRequest(ServiceRequest serviceRequest);
         void AcceptServiceRequest(int id);
+        Task<List<ServiceRequest>> GetServiceRequestsByState(ServiceRequestState state);
     }
 }

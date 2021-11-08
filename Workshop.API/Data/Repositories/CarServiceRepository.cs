@@ -70,5 +70,15 @@ namespace Workshop.API.Data.Repositories
                 _context.ServiceRequests.Update(serviceRequest);
             }
         }
+
+        public async Task<List<ServiceRequest>> GetServiceRequestsByState(ServiceRequestState state)
+        {
+            var serviceRequests = await _context.ServiceRequests
+                .Where(sr => sr.State == state && sr.IsActive == true)
+                .Include(sr => sr.Customer)
+                .ToListAsync();
+
+            return serviceRequests;
+        }
     }
 }

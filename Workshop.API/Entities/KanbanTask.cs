@@ -22,6 +22,7 @@ namespace Workshop.API.Entities
         public string Description { get; set; }
         public DateTime DateOfCreation { get; set; }
         public DateTime DateOfPlannedRealization { get; set; }
+        public DateTime DateOfCarDelivery { get; set; }
         public DateTime DateOfActualRealizatoin { get; set; }
         public KanbanTaskStatus Status { get; set; } = 0;
         public bool IsActive { get; set; } = true;

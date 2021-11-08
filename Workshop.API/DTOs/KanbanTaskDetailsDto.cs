@@ -7,12 +7,12 @@ namespace Workshop.API.DTOs
     {
         public int Id { get; set; }
         public int ServiceRequestId { get; set; }
-        public ServiceRequestDto ServiceRequest { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateOfCreation { get; set; }
         public DateTime DateOfPlannedRealization { get; set; }
         public DateTime DateOfActualRealizatoin { get; set; }
+        public DateTime DateOfCarDelivery { get; set; }
         public KanbanTaskStatus Status { get; set; } = 0;
         public bool IsActive { get; set; } = true;
 
