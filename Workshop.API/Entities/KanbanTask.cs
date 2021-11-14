@@ -17,7 +17,7 @@ namespace Workshop.API.Entities
     public class KanbanTask
     {
         public int Id { get; set; }
-        public int ServiceRequestId { get; set; }
+        public int? ServiceRequestId { get; set; }
         public ServiceRequest ServiceRequest { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

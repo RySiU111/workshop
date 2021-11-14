@@ -53,8 +53,8 @@ namespace Workshop.API.Controllers
             if(kanbanTask == null)
                 return BadRequest();
 
-            if(kanbanTask.ServiceRequestId > 0)
-                _unitOfWork.CarServiceRepository.AcceptServiceRequest(kanbanTask.ServiceRequestId);
+            if(kanbanTask.ServiceRequestId.HasValue)
+                _unitOfWork.CarServiceRepository.AcceptServiceRequest(kanbanTask.ServiceRequestId.Value);
 
             var kanbanTaskToSave = _mapper.Map<KanbanTask>(kanbanTask);
 
@@ -99,10 +99,10 @@ namespace Workshop.API.Controllers
             if(kanbanTaskToDelete == null)
                 return StatusCode(404);
 
-            if(kanbanTaskToDelete.ServiceRequestId > 0)
+            if(kanbanTaskToDelete.ServiceRequestId.HasValue)
             {
                 var serviceRequest = await _unitOfWork.CarServiceRepository
-                    .GetServiceRequest(kanbanTaskToDelete.ServiceRequestId);
+                    .GetServiceRequest(kanbanTaskToDelete.ServiceRequestId.Value);
 
                 if(serviceRequest != null)
                 {
