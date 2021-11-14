@@ -28,6 +28,7 @@ namespace Workshop.API.Entities
         public KanbanTaskStatus Status { get; set; } = 0;
         public bool IsActive { get; set; } = true;
         public List<Subtask> Subtasks { get; set; }
+        public List<KanbanComment> Comments { get; set; }
 
         #region CarSpec
         [Required]

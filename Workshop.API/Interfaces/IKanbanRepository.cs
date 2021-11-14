@@ -17,5 +17,11 @@ namespace Workshop.API.Interfaces
         void EditSubtask(Subtask subtask);
         void DeleteSubtask(Subtask subtask);
         Task<Subtask> GetSubtask(int id);
+
+        void AddKanbanComment(KanbanComment kanbanComment);
+        void EditKanbanComment(KanbanComment kanbanComment);
+        void DeleteKanbanComment(KanbanComment kanbanComment);
+        Task<KanbanComment> GetKanbanComment(int id);
+        Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId);
     }
 }

@@ -194,5 +194,79 @@ namespace Workshop.API.Controllers
 
             return StatusCode(500);
         }
+
+        [HttpGet]
+        [Route("comments")]
+        public async Task<ActionResult<IEnumerable<KanbanCommentDto>>> GetKanabanComments([FromQuery]int kanbanTaskId)
+        {
+            if(kanbanTaskId <= 0)
+                return BadRequest();
+
+            var kanabanComments = await _unitOfWork.KanbanRepository.GetKanbanComments(kanbanTaskId);
+
+            var result = _mapper.Map<KanbanCommentDto[]>(kanabanComments);
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("comments")]
+        public async Task<ActionResult> AddKanabanComment([FromBody]KanbanCommentDto kanbanComment)
+        {
+            if(kanbanComment == null)
+                return BadRequest();
+
+            var kanbanCommentToSave = _mapper.Map<KanbanComment>(kanbanComment);
+
+            _unitOfWork.KanbanRepository.AddKanbanComment(kanbanCommentToSave);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(201);
+
+            return StatusCode(500);
+        }
+
+        [HttpPut]
+        [Route("comments")]
+        public async Task<ActionResult> EditKanabanComment([FromBody]KanbanCommentDto kanbanComment)
+        {
+            if(kanbanComment == null)
+                return BadRequest();
+
+            var kanbanCommentToEdit = _mapper.Map<KanbanComment>(kanbanComment);
+
+            _unitOfWork.KanbanRepository.EditKanbanComment(kanbanCommentToEdit);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpDelete]
+        [Route("comments")]
+        public async Task<ActionResult> DeleteKanabanComment([FromQuery]int kanbanCommentId)
+        {
+            if(kanbanCommentId <= 0)
+                return BadRequest();
+
+            var kanbanCommentToDelete = await _unitOfWork.KanbanRepository.GetKanbanComment(kanbanCommentId);
+
+            if(kanbanCommentToDelete == null)
+                return NotFound();
+
+            _unitOfWork.KanbanRepository.DeleteKanbanComment(kanbanCommentToDelete);
+            
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
     }
 }

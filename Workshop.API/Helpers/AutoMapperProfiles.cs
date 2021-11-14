@@ -18,6 +18,10 @@ namespace Workshop.API.Helpers
             
             CreateMap<Subtask, SubtaskDto>();
             CreateMap<SubtaskDto, Subtask>();
+
+            CreateMap<KanbanComment, KanbanCommentDto>()
+                .ForMember(k => k.UserName, a => a.MapFrom(s => s.User.UserName));
+            CreateMap<KanbanCommentDto, KanbanComment>();
         }
     }
 }
