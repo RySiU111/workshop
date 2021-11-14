@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Workshop.API.Entities
@@ -26,6 +27,7 @@ namespace Workshop.API.Entities
         public DateTime DateOfActualRealizatoin { get; set; }
         public KanbanTaskStatus Status { get; set; } = 0;
         public bool IsActive { get; set; } = true;
+        public List<Subtask> Subtasks { get; set; }
 
         #region CarSpec
         [Required]
