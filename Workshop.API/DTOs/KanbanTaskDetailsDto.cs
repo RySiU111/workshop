@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Workshop.API.Entities;
 
 namespace Workshop.API.DTOs
@@ -15,6 +16,7 @@ namespace Workshop.API.DTOs
         public DateTime DateOfCarDelivery { get; set; }
         public KanbanTaskStatus Status { get; set; } = 0;
         public bool IsActive { get; set; } = true;
+        public List<SubtaskDto> Subtasks { get; set; }
 
         #region CarSpec
         public string VIN { get; set; }

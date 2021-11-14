@@ -48,7 +48,7 @@ namespace Workshop.API.Controllers
 
         [HttpPost]
         [Route("kanbanTask")]
-        public async Task<ActionResult> CreateKanbanTask([FromBody]KanbanTask kanbanTask)
+        public async Task<ActionResult> CreateKanbanTask([FromBody]KanbanTaskDetailsDto kanbanTask)
         {
             if(kanbanTask == null)
                 return BadRequest();
@@ -56,7 +56,9 @@ namespace Workshop.API.Controllers
             if(kanbanTask.ServiceRequestId > 0)
                 _unitOfWork.CarServiceRepository.AcceptServiceRequest(kanbanTask.ServiceRequestId);
 
-            _unitOfWork.KanbanRepository.AddKanbanTask(kanbanTask);
+            var kanbanTaskToSave = _mapper.Map<KanbanTask>(kanbanTask);
+
+            _unitOfWork.KanbanRepository.AddKanbanTask(kanbanTaskToSave);
 
             var result = await _unitOfWork.SaveAsync();
 
@@ -68,12 +70,14 @@ namespace Workshop.API.Controllers
 
         [HttpPut]
         [Route("kanbanTask")]
-        public async Task<ActionResult> EditKanbanTask([FromBody]KanbanTask kanbanTask)
+        public async Task<ActionResult> EditKanbanTask([FromBody]KanbanTaskDetailsDto kanbanTask)
         {
             if(kanbanTask == null)
                 return BadRequest();
 
-            _unitOfWork.KanbanRepository.EditKanbanTask(kanbanTask);
+            var kanbanTaskToEdit = _mapper.Map<KanbanTask>(kanbanTask);
+
+            _unitOfWork.KanbanRepository.EditKanbanTask(kanbanTaskToEdit);
 
             var result = await _unitOfWork.SaveAsync();
 
@@ -109,6 +113,80 @@ namespace Workshop.API.Controllers
 
             _unitOfWork.KanbanRepository.DeleteKanbanTask(kanbanTaskToDelete);
 
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpGet]
+        [Route("subtasks")]
+        public async Task<ActionResult<IEnumerable<SubtaskDto>>> GetSubtasks([FromQuery]int kanbanTaskId)
+        {
+            if(kanbanTaskId <= 0)
+                return BadRequest();
+
+            var subtasks = await _unitOfWork.KanbanRepository.GetSubtasks(kanbanTaskId);
+
+            var result = _mapper.Map<SubtaskDto[]>(subtasks);
+
+            return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("subtask")]
+        public async Task<ActionResult> EditSubtask([FromBody]SubtaskDto subtask)
+        {
+            if(subtask == null)
+                return BadRequest();
+
+            var subtaskToEdit = _mapper.Map<Subtask>(subtask);
+
+            _unitOfWork.KanbanRepository.EditSubtask(subtaskToEdit);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpPost]
+        [Route("subtask")]
+        public async Task<ActionResult> GetSubtasks([FromBody]SubtaskDto subtask)
+        {
+            if(subtask == null)
+                return BadRequest();
+
+            var subtaskToSave = _mapper.Map<Subtask>(subtask);
+
+            _unitOfWork.KanbanRepository.AddSubtask(subtaskToSave);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(201);
+
+            return StatusCode(500);
+        }
+
+        [HttpDelete]
+        [Route("subtask")]
+        public async Task<ActionResult> DeleteSubtask([FromQuery]int subtaskId)
+        {
+            if(subtaskId <= 0)
+                return BadRequest();
+
+            var subtaskToDelete = await _unitOfWork.KanbanRepository.GetSubtask(subtaskId);
+
+            if(subtaskToDelete == null)
+                return NotFound();
+
+            _unitOfWork.KanbanRepository.DeleteSubtask(subtaskToDelete);
+            
             var result = await _unitOfWork.SaveAsync();
 
             if(result)

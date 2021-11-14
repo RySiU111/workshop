@@ -20,15 +20,31 @@ namespace Workshop.API.Data.Repositories
             _context.KanbanTasks.Add(kanbanTask);
         }
 
+        public void AddSubtask(Subtask subtask)
+        {
+            _context.Subtasks.Add(subtask);
+        }
+
         public void DeleteKanbanTask(KanbanTask kanbanTask)
         {
             kanbanTask.IsActive = false;
             _context.KanbanTasks.Update(kanbanTask);
         }
 
+        public void DeleteSubtask(Subtask subtask)
+        {
+            subtask.IsActive = false;
+            _context.Subtasks.Update(subtask);
+        }
+
         public void EditKanbanTask(KanbanTask kanbanTask)
         {
             _context.KanbanTasks.Update(kanbanTask);
+        }
+
+        public void EditSubtask(Subtask subtask)
+        {
+            _context.Subtasks.Update(subtask);
         }
 
         public async Task<List<KanbanTask>> GetKanabanTasks()
@@ -45,9 +61,28 @@ namespace Workshop.API.Data.Repositories
             var kanbanTask = await _context.KanbanTasks
                 .Include(k => k.ServiceRequest)
                     .ThenInclude(sr => sr.Customer)
+                .Include(k => k.Subtasks
+                    .Where(s => s.IsActive == true))
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             return kanbanTask;
+        }
+
+        public async Task<Subtask> GetSubtask(int id)
+        {
+            var subtask = await _context.Subtasks.
+                FirstOrDefaultAsync(s => s.Id == id);
+
+            return subtask;
+        }
+
+        public async Task<List<Subtask>> GetSubtasks(int kanbanTaskId)
+        {
+            var subtasks = await _context.Subtasks
+                .Where(s => s.KanbanTaskId == kanbanTaskId)
+                .ToListAsync();
+
+            return subtasks;
         }
     }
 }

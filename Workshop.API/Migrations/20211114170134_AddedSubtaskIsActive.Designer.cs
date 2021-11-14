@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Workshop.API.Data;
@@ -9,9 +10,10 @@ using Workshop.API.Data;
 namespace Workshop.API.Migrations
 {
     [DbContext(typeof(WorkshopContext))]
-    partial class WorkshopContextModelSnapshot : ModelSnapshot
+    [Migration("20211114170134_AddedSubtaskIsActive")]
+    partial class AddedSubtaskIsActive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -320,7 +322,7 @@ namespace Workshop.API.Migrations
 
                     b.HasIndex("KanbanTaskId");
 
-                    b.ToTable("Subtasks");
+                    b.ToTable("Subtask");
                 });
 
             modelBuilder.Entity("Workshop.API.Entities.User", b =>
