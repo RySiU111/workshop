@@ -7,7 +7,7 @@ namespace Workshop.API.DTOs
     public class KanbanTaskDetailsDto
     {
         public int Id { get; set; }
-        public int ServiceRequestId { get; set; }
+        public int? ServiceRequestId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateOfCreation { get; set; }
