@@ -168,7 +168,7 @@ namespace Workshop.API.Controllers
             var result = await _unitOfWork.SaveAsync();
 
             if(result)
-                return StatusCode(201);
+                return Ok(subtaskToSave.Id);
 
             return StatusCode(500);
         }
