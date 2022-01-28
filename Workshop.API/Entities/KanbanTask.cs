@@ -29,6 +29,7 @@ namespace Workshop.API.Entities
         public bool IsActive { get; set; } = true;
         public List<Subtask> Subtasks { get; set; }
         public List<KanbanComment> Comments { get; set; }
+        public List<BasketItem> BasketItems { get; set; }
 
         #region CarSpec
         [Required]

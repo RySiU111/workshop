@@ -100,6 +100,8 @@ namespace Workshop.API.Data.Repositories
                 .Include(k => k.Comments
                     .Where(c => c.IsActive == true))
                     .ThenInclude(c => c.User)
+                .Include(k => k.BasketItems
+                    .Where(bi => bi.IsActive == true))
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             return kanbanTask;
@@ -120,6 +122,36 @@ namespace Workshop.API.Data.Repositories
                 .ToListAsync();
 
             return subtasks;
+        }
+
+        public void EditBasketItem(BasketItem basketItem)
+        {
+            _context.BasketItems.Update(basketItem);
+        }
+
+        public void DeleteBasketItem(BasketItem basketItem)
+        {
+            basketItem.IsActive = false;
+            _context.BasketItems.Update(basketItem);
+        }
+
+        public async Task<List<BasketItem>> GetBasketItemsByState(List<BasketItemState> states)
+        {
+            var basketItems = await _context.BasketItems
+                .Where(bi => 
+                    states.Contains(bi.BasketItemState) &&
+                    bi.IsActive == true)
+                .ToListAsync();
+
+            return basketItems;
+        }
+
+        public async Task<BasketItem> GetBasketItem(int basketItemId)
+        {
+            var basketItem = await _context.BasketItems
+                .FirstOrDefaultAsync(bi => bi.Id == basketItemId);
+
+            return basketItem;
         }
     }
 }
