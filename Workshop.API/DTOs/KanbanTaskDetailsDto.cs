@@ -18,6 +18,7 @@ namespace Workshop.API.DTOs
         public bool IsActive { get; set; } = true;
         public List<SubtaskDto> Subtasks { get; set; }
         public List<KanbanCommentDto> Comments { get; set; }
+        public List<BasketItemDto> BasketItems { get; set; }
 
         #region CarSpec
         public string VIN { get; set; }

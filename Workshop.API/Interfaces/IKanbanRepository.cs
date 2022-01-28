@@ -23,5 +23,10 @@ namespace Workshop.API.Interfaces
         void DeleteKanbanComment(KanbanComment kanbanComment);
         Task<KanbanComment> GetKanbanComment(int id);
         Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId);
+
+        void EditBasketItem(BasketItem basketItem);
+        void DeleteBasketItem(BasketItem basketItem);
+        Task<BasketItem> GetBasketItem(int basketItemId);
+        Task<List<BasketItem>> GetBasketItemsByState(List<BasketItemState> states);
     }
 }

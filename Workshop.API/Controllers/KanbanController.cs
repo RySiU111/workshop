@@ -268,5 +268,58 @@ namespace Workshop.API.Controllers
 
             return StatusCode(500);
         }
+
+        [HttpPut]
+        [Route("basketItem")]
+        public async Task<ActionResult> EditBasketItem([FromBody]BasketItemDto basketItem)
+        {
+            if(basketItem == null)
+                return BadRequest();
+
+            var basketItemToEdit = _mapper.Map<BasketItem>(basketItem);
+
+            _unitOfWork.KanbanRepository.EditBasketItem(basketItemToEdit);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpDelete]
+        [Route("basketItem")]
+        public async Task<ActionResult> DeleteBasketItem([FromQuery]int basketItemId)
+        {
+            if(basketItemId <= 0)
+                return BadRequest();
+
+            var basketItemToDelete = await _unitOfWork.KanbanRepository.GetBasketItem(basketItemId);
+
+            if(basketItemToDelete == null)
+                return NotFound();
+
+            _unitOfWork.KanbanRepository.DeleteBasketItem(basketItemToDelete);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpGet]
+        [Route("basketItems/uncompleted")]
+        public async Task<ActionResult<IEnumerable<BasketItem>>> GetUncompletedBasketItems()
+        {
+            var basketItems = await _unitOfWork.KanbanRepository.GetBasketItemsByState(
+                new List<BasketItemState>() { BasketItemState.New, BasketItemState.InRealisation });
+
+            var basketItemsToReturn = _mapper.Map<BasketItemDto[]>(basketItems);
+
+            return Ok(basketItemsToReturn);
+        }
     }
 }
