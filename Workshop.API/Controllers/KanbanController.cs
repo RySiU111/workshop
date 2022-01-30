@@ -288,6 +288,25 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [HttpPost]
+        [Route("basketItem")]
+        public async Task<ActionResult> AddBasketItem([FromBody]BasketItemDto basketItem)
+        {
+            if(basketItem == null)
+                return BadRequest();
+
+            var basketItemToEdit = _mapper.Map<BasketItem>(basketItem);
+
+            _unitOfWork.KanbanRepository.AddBasketItem(basketItemToEdit);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return StatusCode(201);
+
+            return StatusCode(500);
+        }
+
         [HttpDelete]
         [Route("basketItem")]
         public async Task<ActionResult> DeleteBasketItem([FromQuery]int basketItemId)

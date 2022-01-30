@@ -28,5 +28,6 @@ namespace Workshop.API.Interfaces
         void DeleteBasketItem(BasketItem basketItem);
         Task<BasketItem> GetBasketItem(int basketItemId);
         Task<List<BasketItem>> GetBasketItemsByState(List<BasketItemState> states);
+        void AddBasketItem(BasketItem basketItem);
     }
 }
