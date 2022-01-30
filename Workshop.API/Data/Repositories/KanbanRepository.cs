@@ -153,5 +153,10 @@ namespace Workshop.API.Data.Repositories
 
             return basketItem;
         }
+
+        public void AddBasketItem(BasketItem basketItem)
+        {
+            _context.BasketItems.Add(basketItem);
+        }
     }
 }

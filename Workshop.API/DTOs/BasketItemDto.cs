@@ -10,6 +10,8 @@ namespace Workshop.API.DTOs
         public string ItemName { get; set; }
         public double Price { get; set; }
         public BasketItemState BasketItemState { get; set; }
+        public double Amount { get; set; }
+        public UnitOfMeasure UnitOfMeasure { get; set; }
         public DateTime DateOfAddedToCart { get; set; }
         public DateTime DateOfPurchase { get; set; }
         public DateTime DateOfDelivery { get; set; }
