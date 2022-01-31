@@ -336,7 +336,7 @@ namespace Workshop.API.Controllers
             var basketItems = await _unitOfWork.KanbanRepository.GetBasketItemsByState(
                 new List<BasketItemState>() { BasketItemState.New, BasketItemState.InRealisation });
 
-            var basketItemsToReturn = _mapper.Map<BasketItemDto[]>(basketItems);
+            var basketItemsToReturn = _mapper.Map<BasketItemKanbanTaskDto[]>(basketItems);
 
             return Ok(basketItemsToReturn);
         }

@@ -141,6 +141,7 @@ namespace Workshop.API.Data.Repositories
                 .Where(bi => 
                     states.Contains(bi.BasketItemState) &&
                     bi.IsActive == true)
+                .Include(bi => bi.KanbanTask)
                 .ToListAsync();
 
             return basketItems;
