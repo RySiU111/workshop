@@ -25,13 +25,20 @@ namespace Workshop.API.Controllers
         [Authorize]
         [HttpGet]
         [Route("kanbanTasks")]
-        public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks()
+        public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks([FromQuery]string vin)
         {
-            var kanbanTasks = await _unitOfWork.KanbanRepository.GetKanabanTasks();
-
-            var result = _mapper.Map<KanbanTaskDto[]>(kanbanTasks);
-
-            return Ok(result);
+            if(string.IsNullOrEmpty(vin))
+            {
+                var kanbanTasks = await _unitOfWork.KanbanRepository.GetKanabanTasks();
+                var result = _mapper.Map<KanbanTaskDto[]>(kanbanTasks);
+                return Ok(result);
+            }
+            else
+            {
+                var kanbanTasks = await _unitOfWork.KanbanRepository.GetCarHistory(vin);
+                var result = _mapper.Map<KanbanTaskHistoryDto[]>(kanbanTasks);
+                return Ok(result);
+            }
         }
 
         [AllowAnonymous]

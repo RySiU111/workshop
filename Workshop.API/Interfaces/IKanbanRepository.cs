@@ -11,6 +11,7 @@ namespace Workshop.API.Interfaces
         void AddKanbanTask(KanbanTask kanbanTask);
         void EditKanbanTask(KanbanTask kanbanTask);
         void DeleteKanbanTask(KanbanTask kanbanTask);
+        Task<List<KanbanTask>> GetCarHistory(string vin);
 
         Task<List<Subtask>> GetSubtasks(int kanbanTaskId);
         void AddSubtask(Subtask subtask);
