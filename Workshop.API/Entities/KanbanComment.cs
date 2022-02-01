@@ -12,5 +12,6 @@ namespace Workshop.API.Entities
         public string Content { get; set; }
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
         public bool IsActive { get; set; } = true;
+        public bool IsInnerComment { get; set; }
     }
 }

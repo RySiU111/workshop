@@ -6,7 +6,7 @@ namespace Workshop.API.Interfaces
 {
     public interface IKanbanRepository
     {
-        Task<KanbanTask> GetKanbanTask(int id);
+        Task<KanbanTask> GetKanbanTask(int id, bool? isInnerComment = null);
         Task<List<KanbanTask>> GetKanabanTasks();
         void AddKanbanTask(KanbanTask kanbanTask);
         void EditKanbanTask(KanbanTask kanbanTask);
@@ -22,7 +22,7 @@ namespace Workshop.API.Interfaces
         void EditKanbanComment(KanbanComment kanbanComment);
         void DeleteKanbanComment(KanbanComment kanbanComment);
         Task<KanbanComment> GetKanbanComment(int id);
-        Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId);
+        Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId, bool? isInnerComment = null);
 
         void EditBasketItem(BasketItem basketItem);
         void DeleteBasketItem(BasketItem basketItem);
