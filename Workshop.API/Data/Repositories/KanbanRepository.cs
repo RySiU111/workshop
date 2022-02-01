@@ -166,5 +166,22 @@ namespace Workshop.API.Data.Repositories
         {
             _context.BasketItems.Add(basketItem);
         }
+
+        public async Task<List<KanbanTask>> GetCarHistory(string vin)
+        {
+            var kanbanTasks = await _context.KanbanTasks
+                .Where(k => k.VIN == vin && 
+                    k.IsActive == true &&
+                    k.Status == KanbanTaskStatus.Done)
+                .Include(k => k.Subtasks
+                    .Where(s => s.IsActive == true && 
+                        s.Status == SubtaskStatus.Done))
+                .Include(k => k.BasketItems
+                    .Where(b => b.IsActive == true &&
+                        b.BasketItemState == BasketItemState.Completed))
+                .ToListAsync(); 
+
+            return kanbanTasks;
+        }
     }
 }

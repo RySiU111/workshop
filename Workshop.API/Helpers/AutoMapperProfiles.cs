@@ -18,6 +18,9 @@ namespace Workshop.API.Helpers
 
             CreateMap<KanbanTask, KanbanTaskBasketDto>();
             CreateMap<KanbanTaskBasketDto, KanbanTask>();
+
+            CreateMap<KanbanTask, KanbanTaskHistoryDto>();
+            CreateMap<KanbanTaskHistoryDto, KanbanTask>();
             
             CreateMap<Subtask, SubtaskDto>();
             CreateMap<SubtaskDto, Subtask>();
