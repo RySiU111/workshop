@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
@@ -21,6 +22,7 @@ namespace Workshop.API.Controllers
             _mapper = mapper;
         }
 
+        [Authorize]
         [HttpGet]
         [Route("kanbanTasks")]
         public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks()
@@ -32,14 +34,20 @@ namespace Workshop.API.Controllers
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("kanbanTask")]
-        public async Task<ActionResult<KanbanTaskDetailsDto>> GetKanbanTask([FromQuery]int id)
+        public async Task<ActionResult<KanbanTaskDetailsDto>> GetPublicKanbanTask([FromQuery]int id)
         {
             if(id <= 0)
                 return BadRequest();
 
-            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id);
+            bool? isInnerComment = null;
+
+            if(!User.Identity.IsAuthenticated)
+                isInnerComment = false;
+
+            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id, isInnerComment);
 
             var result = _mapper.Map<KanbanTaskDetailsDto>(kanbanTask);
 
@@ -197,24 +205,30 @@ namespace Workshop.API.Controllers
 
         [HttpGet]
         [Route("comments")]
-        public async Task<ActionResult<IEnumerable<KanbanCommentDto>>> GetKanabanComments([FromQuery]int kanbanTaskId)
+        public async Task<ActionResult<IEnumerable<KanbanCommentDto>>> GetKanabanComments(
+            [FromQuery]int kanbanTaskId, 
+            [FromQuery]bool? isInnerComment)
         {
             if(kanbanTaskId <= 0)
                 return BadRequest();
 
-            var kanabanComments = await _unitOfWork.KanbanRepository.GetKanbanComments(kanbanTaskId);
+            var kanabanComments = await _unitOfWork.KanbanRepository.GetKanbanComments(kanbanTaskId, isInnerComment);
 
             var result = _mapper.Map<KanbanCommentDto[]>(kanabanComments);
 
             return Ok(result);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("comments")]
         public async Task<ActionResult> AddKanabanComment([FromBody]KanbanCommentDto kanbanComment)
         {
             if(kanbanComment == null)
                 return BadRequest();
+
+            if(!User.Identity.IsAuthenticated)
+                kanbanComment.IsInnerComment = false;
 
             var kanbanCommentToSave = _mapper.Map<KanbanComment>(kanbanComment);
 
@@ -228,12 +242,16 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [AllowAnonymous]
         [HttpPut]
         [Route("comments")]
         public async Task<ActionResult> EditKanabanComment([FromBody]KanbanCommentDto kanbanComment)
         {
             if(kanbanComment == null)
                 return BadRequest();
+
+            if(!User.Identity.IsAuthenticated)
+                kanbanComment.IsInnerComment = false;
 
             var kanbanCommentToEdit = _mapper.Map<KanbanComment>(kanbanComment);
 

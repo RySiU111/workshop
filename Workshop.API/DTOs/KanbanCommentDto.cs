@@ -14,5 +14,7 @@ namespace Workshop.API.DTOs
         public string Content { get; set; }
         public string UserName { get; set; }
         public DateTime DateOfCreation { get; set; } = DateTime.Now;
+        [Required]
+        public bool IsInnerComment { get; set; }
     }
 }

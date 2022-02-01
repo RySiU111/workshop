@@ -11,7 +11,8 @@ namespace Workshop.API.Entities
         InDiagnostics = 2,
         InRealization = 3,
         Frozen = 4,
-        Done = 5
+        WaitingForCustomer = 5,
+        Done = 6
     }
 
     public class KanbanTask

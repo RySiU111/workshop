@@ -80,28 +80,35 @@ namespace Workshop.API.Data.Repositories
             return kanbanComment;
         }
 
-        public async Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId)
+        public async Task<List<KanbanComment>> GetKanbanComments(int kanbanTaskId, bool? isInnerComment = null)
         {
             var kanbanComments = await _context.KanbanComments
-                .Where(k => k.KanbanTaskId == kanbanTaskId && k.IsActive == true)
+                .Where(k => 
+                    k.KanbanTaskId == kanbanTaskId && 
+                    k.IsActive == true && 
+                    (isInnerComment.HasValue ?
+                        k.IsInnerComment == isInnerComment.Value : true))
                 .Include(k => k.User)
                 .ToListAsync();
 
             return kanbanComments;
         }
 
-        public async Task<KanbanTask> GetKanbanTask(int id)
+        public async Task<KanbanTask> GetKanbanTask(int id, bool? isInnerComment = null)
         {
-            var kanbanTask = await _context.KanbanTasks
+            var kanbanTask =  await _context.KanbanTasks
+                .Where(k => k.Status != KanbanTaskStatus.Done)
                 .Include(k => k.ServiceRequest)
                     .ThenInclude(sr => sr.Customer)
                 .Include(k => k.Subtasks
                     .Where(s => s.IsActive == true))
-                .Include(k => k.Comments
-                    .Where(c => c.IsActive == true))
-                    .ThenInclude(c => c.User)
                 .Include(k => k.BasketItems
                     .Where(bi => bi.IsActive == true))
+                .Include(k => k.Comments
+                        .Where(c => c.IsActive == true && 
+                            (isInnerComment.HasValue ?
+                                c.IsInnerComment == isInnerComment.Value : true)))
+                        .ThenInclude(c => c.User)
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             return kanbanTask;
