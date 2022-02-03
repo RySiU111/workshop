@@ -9,6 +9,7 @@ namespace Workshop.API.DTOs
     {
         public int Id { get; set; }
         public int? ServiceRequestId { get; set; }
+        public int CustomerId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateOfActualRealization { get; set; }
