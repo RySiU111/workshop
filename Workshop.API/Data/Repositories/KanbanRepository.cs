@@ -177,8 +177,7 @@ namespace Workshop.API.Data.Repositories
                     .Where(s => s.IsActive == true && 
                         s.Status == SubtaskStatus.Done))
                 .Include(k => k.BasketItems
-                    .Where(b => b.IsActive == true &&
-                        b.BasketItemState == BasketItemState.Completed))
+                    .Where(b => b.IsActive == true))
                 .ToListAsync(); 
 
             return kanbanTasks;
