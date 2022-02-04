@@ -9,7 +9,10 @@ namespace Workshop.API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDto, User>();
+
             CreateMap<Customer, CustomerDto>();
+            CreateMap<CustomerDto, Customer>();
+            
             CreateMap<ServiceRequest, ServiceRequestDto>();
             CreateMap<KanbanTask, KanbanTaskDto>();
             
