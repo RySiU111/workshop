@@ -22,7 +22,7 @@ namespace Workshop.API.Controllers
             _mapper = mapper;
         }
 
-        [Authorize]
+        //[Authorize]
         [HttpGet]
         [Route("kanbanTasks")]
         public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks([FromQuery]string vin)

@@ -97,7 +97,8 @@ namespace Workshop.API.Data.Repositories
         public async Task<KanbanTask> GetKanbanTask(int id, bool? isInnerComment = null)
         {
             var kanbanTask =  await _context.KanbanTasks
-                .Where(k => k.Status != KanbanTaskStatus.Done)
+                .Where(k => k.IsActive == true &&
+                    k.Status != KanbanTaskStatus.Done)
                 .Include(k => k.ServiceRequest)
                     .ThenInclude(sr => sr.Customer)
                 .Include(k => k.Subtasks
