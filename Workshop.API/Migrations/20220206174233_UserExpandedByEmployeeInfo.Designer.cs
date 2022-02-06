@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Workshop.API.Data;
@@ -9,9 +10,10 @@ using Workshop.API.Data;
 namespace Workshop.API.Migrations
 {
     [DbContext(typeof(WorkshopContext))]
-    partial class WorkshopContextModelSnapshot : ModelSnapshot
+    [Migration("20220206174233_UserExpandedByEmployeeInfo")]
+    partial class UserExpandedByEmployeeInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -288,9 +290,6 @@ namespace Workshop.API.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("VIN")
                         .IsRequired()
                         .HasMaxLength(17)
@@ -301,8 +300,6 @@ namespace Workshop.API.Migrations
                     b.HasIndex("CustomerId");
 
                     b.HasIndex("ServiceRequestId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("KanbanTasks");
                 });
@@ -594,15 +591,9 @@ namespace Workshop.API.Migrations
                         .WithMany()
                         .HasForeignKey("ServiceRequestId");
 
-                    b.HasOne("Workshop.API.Entities.User", "User")
-                        .WithMany("KanbanTasks")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Customer");
 
                     b.Navigation("ServiceRequest");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Workshop.API.Entities.ServiceRequest", b =>
@@ -625,7 +616,7 @@ namespace Workshop.API.Migrations
                         .IsRequired();
 
                     b.HasOne("Workshop.API.Entities.User", "User")
-                        .WithMany("Subtasks")
+                        .WithMany()
                         .HasForeignKey("UserId");
 
                     b.Navigation("KanbanTask");
@@ -675,10 +666,6 @@ namespace Workshop.API.Migrations
 
             modelBuilder.Entity("Workshop.API.Entities.User", b =>
                 {
-                    b.Navigation("KanbanTasks");
-
-                    b.Navigation("Subtasks");
-
                     b.Navigation("UserKanbanComments");
 
                     b.Navigation("UserRoles");

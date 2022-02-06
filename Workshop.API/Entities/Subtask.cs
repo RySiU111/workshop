@@ -11,10 +11,12 @@ namespace Workshop.API.Entities
     {
         public int Id { get; set; }
         public int KanbanTaskId { get; set; }
+        public int? UserId { get; set; }
         public string Name { get; set; }
         public double ManHour { get; set; }
         public bool IsActive { get; set; } = true;
         public SubtaskStatus Status { get; set; }
         public KanbanTask KanbanTask { get; set; }
+        public User User { get; set; }
     }
 }

@@ -6,8 +6,10 @@ namespace Workshop.API.DTOs
     {
         public int Id { get; set; }
         public int KanbanTaskId { get; set; }
+        public int UserId { get; set; }
         public string Name { get; set; }
         public double ManHour { get; set; }
         public SubtaskStatus Status { get; set; }
+        public EmployeeDto User { get; set; }
     }
 }

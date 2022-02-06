@@ -75,6 +75,30 @@ namespace Workshop.API.Controllers
             };
         }
 
+        [HttpPut]
+        [Route("changePassword")]
+        public async Task<ActionResult> ChangePassword([FromBody]UserChangePasswordDto userDto)
+        {
+            if(userDto == null)
+                return BadRequest();
+
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Id == userDto.Id);
+
+            if(user == null)
+                return NotFound(userDto);
+
+            var result = await _userManager.ChangePasswordAsync(user, userDto.CurrentPassword, userDto.NewPassword);
+
+            if(result.Succeeded)
+                return Ok();
+
+            return StatusCode(500, result.Errors);
+        }
+        //TODO: Przypomnienie hasła
+        //TODO: Get users
+        //TODO: LockUser
+        //TODO: UnlockUser
+
         private async Task<bool> UserExists(string username) =>
             await _userManager.Users.AnyAsync(u => u.NormalizedUserName == username.ToUpper());
     }

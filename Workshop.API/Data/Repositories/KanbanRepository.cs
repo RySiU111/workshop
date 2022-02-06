@@ -111,6 +111,7 @@ namespace Workshop.API.Data.Repositories
                                 c.IsInnerComment == isInnerComment.Value : true)))
                         .ThenInclude(c => c.User)
                 .Include(k => k.Customer)
+                .Include(k => k.User)
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             return kanbanTask;
