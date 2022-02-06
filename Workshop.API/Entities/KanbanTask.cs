@@ -22,6 +22,8 @@ namespace Workshop.API.Entities
         public ServiceRequest ServiceRequest { get; set; }
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
+        public int? UserId { get; set; }
+        public User User { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public DateTime DateOfCreation { get; set; }
