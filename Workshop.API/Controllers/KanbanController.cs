@@ -44,7 +44,7 @@ namespace Workshop.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("kanbanTask")]
-        public async Task<ActionResult<KanbanTaskDetailsDto>> GetPublicKanbanTask([FromQuery]int id)
+        public async Task<ActionResult<KanbanTaskDetailsDto>> GetPublicKanbanTask([FromQuery]int? id, [FromQuery]string vin)
         {
             if(id <= 0)
                 return BadRequest();
@@ -54,7 +54,7 @@ namespace Workshop.API.Controllers
             if(!User.Identity.IsAuthenticated)
                 isInnerComment = false;
 
-            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id, isInnerComment);
+            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id, isInnerComment, vin);
 
             var result = _mapper.Map<KanbanTaskDetailsDto>(kanbanTask);
 

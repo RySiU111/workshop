@@ -94,7 +94,7 @@ namespace Workshop.API.Data.Repositories
             return kanbanComments;
         }
 
-        public async Task<KanbanTask> GetKanbanTask(int id, bool? isInnerComment = null)
+        public async Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, string vin = null)
         {
             var kanbanTask =  await _context.KanbanTasks
                 .Where(k => k.IsActive == true &&
@@ -112,7 +112,10 @@ namespace Workshop.API.Data.Repositories
                         .ThenInclude(c => c.User)
                 .Include(k => k.Customer)
                 .Include(k => k.User)
-                .FirstOrDefaultAsync(k => k.Id == id);
+                .OrderByDescending(k => k.DateOfCreation)
+                .FirstOrDefaultAsync(k => 
+                    id.HasValue ? k.Id == id : true &&
+                    string.IsNullOrEmpty(vin) ? true : k.VIN.ToUpper() == vin.ToUpper());
 
             return kanbanTask;
         }
