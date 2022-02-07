@@ -43,6 +43,12 @@ namespace Workshop.API.Helpers
             CreateMap<BasketItem, BasketItemKanbanTaskDto>();
             CreateMap<BasketItemKanbanTaskDto, BasketItem>();
 
+            CreateMap<CalendarEntry, CalendarEntryDto>();
+            CreateMap<CalendarEntryDto, CalendarEntry>();
+
+            CreateMap<CalendarEntry, CalendarEntryAddDto>();
+            CreateMap<CalendarEntryAddDto, CalendarEntry>();
+
             CreateMap<KanbanComment, KanbanCommentDto>()
                 .ForMember(k => k.UserName, a => a.MapFrom(s => s.User.UserName));
             CreateMap<KanbanCommentDto, KanbanComment>();

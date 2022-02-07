@@ -49,6 +49,8 @@ namespace Workshop.API.Controllers
                     .Where(x => x.IsActive == true))
                 .Include(u => u.UserKanbanComments
                     .Where(x => x.IsActive == true))
+                .Include(u => u.CalendarEntries
+                    .Where(x => x.IsActive == true))
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             user.Subtasks.ForEach(s => s.User = null);

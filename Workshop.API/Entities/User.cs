@@ -16,6 +16,7 @@ namespace Workshop.API.Entities
         public List<KanbanComment> UserKanbanComments { get; set; }
         public List<KanbanTask> KanbanTasks { get; set; }
         public List<Subtask> Subtasks { get; set; }
+        public List<CalendarEntry> CalendarEntries { get; set; }
 
     }
 }

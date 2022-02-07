@@ -103,6 +103,8 @@ namespace Workshop.API.Data.Repositories
                     .ThenInclude(sr => sr.Customer)
                 .Include(k => k.Subtasks
                     .Where(s => s.IsActive == true))
+                    .ThenInclude(st => st.CalendarEntries
+                        .Where(c => c.IsActive == true))
                 .Include(k => k.BasketItems
                     .Where(bi => bi.IsActive == true))
                 .Include(k => k.Comments

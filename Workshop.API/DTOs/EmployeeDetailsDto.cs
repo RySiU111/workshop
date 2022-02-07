@@ -17,5 +17,6 @@ namespace Workshop.API.DTOs
         public List<KanbanCommentDto> UserKanbanComments { get; set; }
         public List<KanbanTaskDto> KanbanTasks { get; set; }
         public List<SubtaskDto> Subtasks { get; set; }
+        public List<CalendarEntryDto> CalendarEntries { get; set; }
     }
 }

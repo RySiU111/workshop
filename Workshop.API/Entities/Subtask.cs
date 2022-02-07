@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Workshop.API.Entities
 {
     public enum SubtaskStatus
@@ -18,5 +20,6 @@ namespace Workshop.API.Entities
         public SubtaskStatus Status { get; set; }
         public KanbanTask KanbanTask { get; set; }
         public User User { get; set; }
+        public List<CalendarEntry> CalendarEntries { get; set; }
     }
 }
