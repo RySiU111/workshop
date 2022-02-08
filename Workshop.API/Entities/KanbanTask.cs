@@ -26,6 +26,7 @@ namespace Workshop.API.Entities
         public User User { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ProtocolNumber { get; set; }
         public DateTime DateOfCreation { get; set; }
         public DateTime DateOfPlannedRealization { get; set; }
         public DateTime DateOfCarDelivery { get; set; }

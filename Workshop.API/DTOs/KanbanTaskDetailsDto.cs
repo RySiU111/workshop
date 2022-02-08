@@ -12,6 +12,7 @@ namespace Workshop.API.DTOs
         public CustomerDto Customer { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string ProtocolNumber { get; set; }
         public DateTime DateOfCreation { get; set; }
         public DateTime DateOfPlannedRealization { get; set; }
         public DateTime DateOfActualRealizatoin { get; set; }

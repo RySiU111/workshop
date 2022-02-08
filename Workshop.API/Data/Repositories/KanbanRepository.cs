@@ -108,9 +108,9 @@ namespace Workshop.API.Data.Repositories
             return kanbanComments;
         }
 
-        public async Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, string vin = null)
+        public async Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, ProtocolQuery protocolQuery = null)
         {
-            var kanbanTask =  await _context.KanbanTasks
+            var query = _context.KanbanTasks
                 .Where(k => k.IsActive == true &&
                     k.Status != KanbanTaskStatus.Done)
                 .Include(k => k.ServiceRequest)
@@ -128,12 +128,22 @@ namespace Workshop.API.Data.Repositories
                         .ThenInclude(c => c.User)
                 .Include(k => k.Customer)
                 .Include(k => k.User)
-                .OrderByDescending(k => k.DateOfCreation)
-                .FirstOrDefaultAsync(k => 
-                    id.HasValue ? k.Id == id : true &&
-                    string.IsNullOrEmpty(vin) ? true : k.VIN.ToUpper() == vin.ToUpper());
+                .OrderByDescending(k => k.DateOfCreation);
 
-            return kanbanTask;
+                if(id.HasValue)
+                    return await query.FirstOrDefaultAsync(k => k.Id == id.Value);
+                else
+                    return await query.FirstOrDefaultAsync(k => 
+                        k.VIN.ToUpper() == protocolQuery.VIN.ToUpper() &&
+                        k.ProtocolNumber.ToUpper() == protocolQuery.ProtocolNumber.ToUpper());
+
+
+
+            //     .FirstOrDefaultAsync(k => 
+            //         id.HasValue ? k.Id == id : true &&
+            //         string.IsNullOrEmpty(vin) ? true : k.VIN.ToUpper() == vin.ToUpper());
+
+            // return kanbanTask;
         }
 
         public async Task<Subtask> GetSubtask(int id)

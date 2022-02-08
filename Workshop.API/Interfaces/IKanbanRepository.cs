@@ -7,7 +7,7 @@ namespace Workshop.API.Interfaces
 {
     public interface IKanbanRepository
     {
-        Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, string vin = null);
+        Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, ProtocolQuery protocolQuery = null);
         Task<List<KanbanTask>> GetKanabanTasks(KanbanTaskQuery queryModel);
         void AddKanbanTask(KanbanTask kanbanTask);
         void EditKanbanTask(KanbanTask kanbanTask);

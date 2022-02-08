@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -48,9 +50,12 @@ namespace Workshop.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("kanbanTask")]
-        public async Task<ActionResult<KanbanTaskDetailsDto>> GetPublicKanbanTask([FromQuery]int? id, [FromQuery]string vin)
+        public async Task<ActionResult<KanbanTaskDetailsDto>> GetPublicKanbanTask(
+            [FromQuery]int? id, [FromQuery]ProtocolQuery protocolQuery)
         {
-            if(id <= 0)
+            if((!id.HasValue && !protocolQuery.Validate()) || 
+                (id.HasValue && id <= 0) || 
+                (!id.HasValue && !protocolQuery.Validate()))
                 return BadRequest();
 
             bool? isInnerComment = null;
@@ -58,7 +63,7 @@ namespace Workshop.API.Controllers
             if(!User.Identity.IsAuthenticated)
                 isInnerComment = false;
 
-            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id, isInnerComment, vin);
+            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(id, isInnerComment, protocolQuery);
 
             var result = _mapper.Map<KanbanTaskDetailsDto>(kanbanTask);
 
@@ -102,6 +107,31 @@ namespace Workshop.API.Controllers
 
             if(result)
                 return StatusCode(204);
+
+            return StatusCode(500);
+        }
+
+        [HttpPut]
+        [Route("kanbanTask/protocol")]
+        public async Task<ActionResult> GenerateProtocolNumber([FromQuery]int kanbanTaskId)
+        {
+            if(kanbanTaskId <= 0)
+                return BadRequest();
+
+            var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(kanbanTaskId);
+            
+            if(!string.IsNullOrEmpty(kanbanTask.ProtocolNumber))
+                return BadRequest("Protokół już został wygenerowany.");
+            
+            var protocolNumber = Guid.NewGuid().ToString().Substring(0, 8);
+            kanbanTask.ProtocolNumber = protocolNumber;
+
+            _unitOfWork.KanbanRepository.EditKanbanTask(kanbanTask);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok(protocolNumber);
 
             return StatusCode(500);
         }
