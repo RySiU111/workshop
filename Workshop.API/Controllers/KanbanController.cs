@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
 using Workshop.API.Interfaces;
+using Workshop.API.Models;
 
 namespace Workshop.API.Controllers
 {
@@ -25,17 +26,20 @@ namespace Workshop.API.Controllers
         //[Authorize]
         [HttpGet]
         [Route("kanbanTasks")]
-        public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks([FromQuery]string vin)
+        public async Task<ActionResult<IEnumerable<KanbanTaskDto>>> GetKanbanTasks([FromQuery]KanbanTaskQuery query)
         {
-            if(string.IsNullOrEmpty(vin))
+            if(!query.Validate())
+                return BadRequest();
+
+            if(string.IsNullOrEmpty(query.VIN))
             {
-                var kanbanTasks = await _unitOfWork.KanbanRepository.GetKanabanTasks();
+                var kanbanTasks = await _unitOfWork.KanbanRepository.GetKanabanTasks(query);
                 var result = _mapper.Map<KanbanTaskDto[]>(kanbanTasks);
                 return Ok(result);
             }
             else
             {
-                var kanbanTasks = await _unitOfWork.KanbanRepository.GetCarHistory(vin);
+                var kanbanTasks = await _unitOfWork.KanbanRepository.GetCarHistory(query.VIN);
                 var result = _mapper.Map<KanbanTaskHistoryDto[]>(kanbanTasks);
                 return Ok(result);
             }

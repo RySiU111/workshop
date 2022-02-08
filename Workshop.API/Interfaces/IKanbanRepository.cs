@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Workshop.API.Entities;
+using Workshop.API.Models;
 
 namespace Workshop.API.Interfaces
 {
     public interface IKanbanRepository
     {
         Task<KanbanTask> GetKanbanTask(int? id, bool? isInnerComment = null, string vin = null);
-        Task<List<KanbanTask>> GetKanabanTasks();
+        Task<List<KanbanTask>> GetKanabanTasks(KanbanTaskQuery queryModel);
         void AddKanbanTask(KanbanTask kanbanTask);
         void EditKanbanTask(KanbanTask kanbanTask);
         void DeleteKanbanTask(KanbanTask kanbanTask);
