@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Workshop.API.Entities;
 using Workshop.API.Interfaces;
+using Workshop.API.Models;
 
 namespace Workshop.API.Data.Repositories
 {
@@ -63,11 +64,24 @@ namespace Workshop.API.Data.Repositories
             _context.Subtasks.Update(subtask);
         }
 
-        public async Task<List<KanbanTask>> GetKanabanTasks()
+        public async Task<List<KanbanTask>> GetKanabanTasks(KanbanTaskQuery queryModel)
         {
-            var kanbanTasks = await _context.KanbanTasks
-                .Where(k => k.IsActive)
-                .ToListAsync();
+            var query = _context.KanbanTasks
+                .Where(k => k.IsActive && k.Status != KanbanTaskStatus.Done);
+
+            if(queryModel.DateExactly.HasValue)
+                query = query.Where(x => 
+                    x.DateOfCarDelivery.Date == queryModel.DateExactly.Value.Date);
+
+            if(queryModel.DateFrom.HasValue)
+                query = query.Where(x => 
+                    x.DateOfCarDelivery.Date >= queryModel.DateFrom.Value.Date);
+
+            if(queryModel.DateTo.HasValue)
+                query = query.Where(x => 
+                    x.DateOfCarDelivery.Date <= queryModel.DateTo.Value.Date);
+
+            var kanbanTasks = await query.ToListAsync();
 
             return kanbanTasks;
         }
@@ -177,10 +191,13 @@ namespace Workshop.API.Data.Repositories
 
         public async Task<List<KanbanTask>> GetCarHistory(string vin)
         {
+            var allowedKanbanStatuses = new KanbanTaskStatus[] 
+                {KanbanTaskStatus.Done, KanbanTaskStatus.WaitingForCustomer};
+
             var kanbanTasks = await _context.KanbanTasks
                 .Where(k => k.VIN == vin && 
                     k.IsActive == true &&
-                    k.Status == KanbanTaskStatus.Done)
+                    allowedKanbanStatuses.Contains(k.Status))
                 .Include(k => k.Subtasks
                     .Where(s => s.IsActive == true && 
                         s.Status == SubtaskStatus.Done))
