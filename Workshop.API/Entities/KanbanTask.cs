@@ -36,6 +36,7 @@ namespace Workshop.API.Entities
         public List<Subtask> Subtasks { get; set; }
         public List<KanbanComment> Comments { get; set; }
         public List<BasketItem> BasketItems { get; set; }
+        public List<Photo> Photos { get; set; }
 
         #region CarSpec
         [Required]

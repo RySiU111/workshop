@@ -19,6 +19,7 @@ namespace Workshop.API.Data
         public DbSet<KanbanComment> KanbanComments { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CalendarEntry> CalendarEntries { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

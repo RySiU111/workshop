@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
@@ -18,11 +19,13 @@ namespace Workshop.API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoSevice;
 
-        public KanbanController(IUnitOfWork unitOfWork, IMapper mapper)
+        public KanbanController(IUnitOfWork unitOfWork, IMapper mapper, IPhotoService photoSevice)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _photoSevice = photoSevice;
         }
 
         //[Authorize]
@@ -90,6 +93,63 @@ namespace Workshop.API.Controllers
                 return StatusCode(201);
 
             return StatusCode(500);
+        }
+
+        [HttpPost]
+        [Route("kanbanTask/{kanbanTaskId}/photo")]
+        public async Task<ActionResult> AddPhotoToKanbanTask(int kanbanTaskId, IFormFile file)
+        {
+            if(kanbanTaskId <= 0)
+                return BadRequest();
+
+            var photoResult = await _photoSevice.AddPhotoAsync(file);
+
+            if(photoResult.Error != null)
+                return BadRequest(photoResult.Error.Message);
+
+            var photo = new Photo
+            {
+                KanbanTaskId = kanbanTaskId,
+                Url = photoResult.SecureUrl.AbsoluteUri,
+                PublicId = photoResult.PublicId,
+                Name = file.FileName,
+            };
+
+            _unitOfWork.KanbanRepository.AddPhoto(photo);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok();
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("kanbanTask/photo")]
+        public async Task<ActionResult> DeletePhoto([FromQuery]int photoId)
+        {
+            if(photoId <= 0)
+                return BadRequest();
+
+            var photo = await _unitOfWork.KanbanRepository.GetPhoto(photoId);
+
+            if(photo == null)
+                return NotFound();
+
+            var photoResult = await _photoSevice.DeletePhotoAsync(photo.PublicId);
+
+            if(photoResult.Error != null)
+                return BadRequest(photoResult.Error.Message);
+
+            _unitOfWork.KanbanRepository.RemovePhoto(photo);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok();
+
+            return BadRequest();
         }
 
         [HttpPut]

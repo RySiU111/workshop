@@ -40,6 +40,9 @@ namespace Workshop.API.Helpers
             CreateMap<BasketItem, BasketItemDto>();
             CreateMap<BasketItemDto, BasketItem>();
 
+            CreateMap<Photo, PhotoDto>();
+            CreateMap<PhotoDto, Photo>();
+
             CreateMap<BasketItem, BasketItemKanbanTaskDto>();
             CreateMap<BasketItemKanbanTaskDto, BasketItem>();
 
