@@ -31,5 +31,9 @@ namespace Workshop.API.Interfaces
         Task<BasketItem> GetBasketItem(int basketItemId);
         Task<List<BasketItem>> GetBasketItemsByState(List<BasketItemState> states);
         void AddBasketItem(BasketItem basketItem);
+
+        void AddPhoto(Photo photo);
+        void RemovePhoto(Photo photo);
+        Task<Photo> GetPhoto(int id);
     }
 }

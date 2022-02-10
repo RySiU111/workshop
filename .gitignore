@@ -448,3 +448,4 @@ $RECYCLE.BIN/
 !.vscode/extensions.json
 *.db
 .vscode
+Workshop.API/appsettings.json

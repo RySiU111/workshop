@@ -128,6 +128,7 @@ namespace Workshop.API.Data.Repositories
                         .ThenInclude(c => c.User)
                 .Include(k => k.Customer)
                 .Include(k => k.User)
+                .Include(k => k.Photos)
                 .OrderByDescending(k => k.DateOfCreation);
 
                 if(id.HasValue)
@@ -136,14 +137,6 @@ namespace Workshop.API.Data.Repositories
                     return await query.FirstOrDefaultAsync(k => 
                         k.VIN.ToUpper() == protocolQuery.VIN.ToUpper() &&
                         k.ProtocolNumber.ToUpper() == protocolQuery.ProtocolNumber.ToUpper());
-
-
-
-            //     .FirstOrDefaultAsync(k => 
-            //         id.HasValue ? k.Id == id : true &&
-            //         string.IsNullOrEmpty(vin) ? true : k.VIN.ToUpper() == vin.ToUpper());
-
-            // return kanbanTask;
         }
 
         public async Task<Subtask> GetSubtask(int id)
@@ -216,6 +209,24 @@ namespace Workshop.API.Data.Repositories
                 .ToListAsync(); 
 
             return kanbanTasks;
+        }
+
+        public void AddPhoto(Photo photo)
+        {
+            _context.Photos.Add(photo);
+        }
+
+        public async Task<Photo> GetPhoto(int id)
+        {
+            var photo = await _context.Photos
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            return photo;
+        }
+
+        public void RemovePhoto(Photo photo)
+        {
+            _context.Photos.Remove(photo);
         }
     }
 }
