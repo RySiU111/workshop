@@ -39,10 +39,10 @@ namespace Workshop.API.Data.Repositories
                 query = query.Where(c => c.UserId == queryModel.UserId);
 
             if(queryModel.DateFrom.HasValue)
-                query = query.Where(c => c.DateFrom.Date <= queryModel.DateFrom.Value.Date);
+                query = query.Where(c => c.Date.Date >= queryModel.DateFrom.Value.Date);
 
             if(queryModel.DateTo.HasValue)
-                query = query.Where(c => c.DateTo.Date <= queryModel.DateTo.Value.Date);
+                query = query.Where(c => c.Date.Date <= queryModel.DateTo.Value.Date);
 
             query = query
                 .Include(c => c.User)

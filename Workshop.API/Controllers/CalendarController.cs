@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,9 @@ namespace Workshop.API.Controllers
                 return BadRequest(validationResult.Errors);
 
             var entryToAdd = _mapper.Map<CalendarEntry>(entry);
+
+            entryToAdd.IsPlanned = DateTime.Now.Date < entryToAdd.Date;
+
             _unitOfWork.CalendarRepository.AddCalendarEntry(entryToAdd);
 
             var result = await _unitOfWork.SaveAsync();

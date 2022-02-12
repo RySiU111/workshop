@@ -10,24 +10,18 @@ namespace Workshop.API.DTOs
         public EmployeeDto User { get; set; }
         public int SubtaskId { get; set; }
         public SubtaskDto Subtask { get; set; }
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime Date { get; set; }
         public double Hours { get; set; }
         public string Description { get; set; }
+        public bool IsPlanned { get; set; }
 
         public ValidationResult Validate()
         { 
             var result = new ValidationResult();
 
-            if(DateFrom > DateTo)
+            if(Hours > 24)
             {
-                result.IsSuccess &= false;
-                result.Errors.Add("Niepoprawna data");
-            }
-
-            if(Hours > (DateTo - DateFrom).TotalHours)
-            {
-                result.IsSuccess &= false;
+                result.IsSuccess = false;
                 result.Errors.Add("Niepoprawna ilość godzin");
             }
 
