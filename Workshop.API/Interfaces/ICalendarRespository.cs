@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Workshop.API.Entities;
@@ -9,5 +10,6 @@ namespace Workshop.API.Interfaces
     {
         Task<List<CalendarEntry>> GetCalendarEntries(CalendarEntryQuery queryModel);
         void AddCalendarEntry(CalendarEntry entry);
+        Task<List<User>> GetAvailableUsers(DateTime date);
     }
 }

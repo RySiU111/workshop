@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -56,6 +58,24 @@ namespace Workshop.API.Controllers
                 return StatusCode(204);
 
             return StatusCode(500);
+        }
+
+        [HttpGet]
+        [Route("availableUsers")]
+        public async Task<ActionResult> GetAvailableUsers([FromQuery]DateTime date)
+        {
+            var users = await _unitOfWork.CalendarRepository.GetAvailableUsers(date);
+            var employees = _mapper.Map<List<CalendarEntryUserDto>>(users);
+
+            foreach (var employee in employees)
+            {
+                employee.AvailableHours = 8;
+                var busyHours = users.First(u => u.Id == employee.Id)
+                    .CalendarEntries.Sum(c => c.Hours);
+                employee.AvailableHours -= busyHours;
+            }
+
+            return Ok(employees);
         }
     }
 }

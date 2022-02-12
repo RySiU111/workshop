@@ -50,5 +50,16 @@ namespace Workshop.API.Data.Repositories
 
             return query.ToListAsync();
         }
+
+        public async Task<List<User>> GetAvailableUsers(DateTime date)
+        {
+            var users = await _context.Users
+                .Where(u => u.CalendarEntries.Any(c => c.Date.Date != date.Date) || 
+                    u.CalendarEntries.Where(c => c.Date.Date == date.Date).Sum(c => c.Hours) < 8)
+                .Include(u => u.CalendarEntries.Where(c => c.Date.Date == date.Date))
+                .ToListAsync();
+
+            return users;
+        }
     }
 }
