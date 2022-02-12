@@ -11,5 +11,7 @@ namespace Workshop.API.Interfaces
         Task<List<CalendarEntry>> GetCalendarEntries(CalendarEntryQuery queryModel);
         void AddCalendarEntry(CalendarEntry entry);
         Task<List<User>> GetAvailableUsers(DateTime date);
+        void RemoveCalendarEntry(CalendarEntry entry);
+        void EditCalendarEntry(CalendarEntry entry);
     }
 }

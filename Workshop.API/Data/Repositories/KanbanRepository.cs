@@ -204,6 +204,8 @@ namespace Workshop.API.Data.Repositories
                 .Include(k => k.Subtasks
                     .Where(s => s.IsActive == true && 
                         s.Status == SubtaskStatus.Done))
+                    .ThenInclude(s => s.CalendarEntries
+                        .Where(c => c.IsActive))
                 .Include(k => k.BasketItems
                     .Where(b => b.IsActive == true))
                 .ToListAsync(); 

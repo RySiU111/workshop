@@ -1,3 +1,4 @@
+using System.Linq;
 using AutoMapper;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
@@ -34,7 +35,17 @@ namespace Workshop.API.Helpers
             CreateMap<KanbanTask, KanbanTaskBasketDto>();
             CreateMap<KanbanTaskBasketDto, KanbanTask>();
 
-            CreateMap<KanbanTask, KanbanTaskHistoryDto>();
+            CreateMap<KanbanTask, KanbanTaskHistoryDto>()
+                .ForMember(k => k.PlannedWorkHoursCosts, 
+                    x => x.MapFrom(k => k.Subtasks
+                        .Where(s => s.IsActive)
+                        .Sum(s => s.ManHour)))
+                .ForMember(k => k.TotalWorkHoursCosts, 
+                    x => x.MapFrom(k => k.Subtasks
+                        .Where(s => s.IsActive)
+                        .Sum(s => s.CalendarEntries
+                            .Where(c => c.IsActive)
+                            .Sum(c => c.Hours))));
             CreateMap<KanbanTaskHistoryDto, KanbanTask>();
             
             CreateMap<Subtask, SubtaskDto>();
