@@ -16,6 +16,9 @@ namespace Workshop.API.Helpers
             CreateMap<EmployeeDto, User>();
             CreateMap<User, EmployeeDto>();
 
+            CreateMap<User, CalendarEntryUserDto>();
+            CreateMap<CalendarEntryUserDto, User>();
+
             CreateMap<UserChangePasswordDto, User>();
             CreateMap<EmployeeEditDto, User>();
 
