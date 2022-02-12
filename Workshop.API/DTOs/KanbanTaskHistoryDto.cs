@@ -16,7 +16,7 @@ namespace Workshop.API.DTOs
         public List<SubtaskDto> Subtasks { get; set; }
         public List<BasketItemDto> BasketItems { get; set; }
         public double TotalBasketPrice { get => BasketItems.Sum(bi => bi.Price * bi.Amount); }
-        //TODO: Add TotalWorkHoursCosts, koszt roboczogodziny
-        public double TotalWorkHoursCosts { get => Subtasks.Sum(s => s.ManHour * 100000); }
+        public double TotalWorkHoursCosts { get; set; }
+        public double PlannedWorkHoursCosts { get; set; }
     }
 }

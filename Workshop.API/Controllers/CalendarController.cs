@@ -48,7 +48,7 @@ namespace Workshop.API.Controllers
 
             var entryToAdd = _mapper.Map<CalendarEntry>(entry);
 
-            entryToAdd.IsPlanned = DateTime.Now.Date < entryToAdd.Date;
+            entryToAdd.IsPlanned = entryToAdd.Date.Date > DateTime.Now.Date;
 
             _unitOfWork.CalendarRepository.AddCalendarEntry(entryToAdd);
 
@@ -76,6 +76,47 @@ namespace Workshop.API.Controllers
             }
 
             return Ok(employees);
+        }
+
+        [HttpPut]
+        [Route("entry")]
+        public async Task<ActionResult> EditCalendarEntry([FromBody]CalendarEntryAddDto entry)
+        {
+            var calendarEntry = _mapper.Map<CalendarEntry>(entry);
+            calendarEntry.IsPlanned = calendarEntry.Date.Date > DateTime.Now.Date;
+
+            _unitOfWork.CalendarRepository.EditCalendarEntry(calendarEntry);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok();
+
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("entry")]
+        public async Task<ActionResult> RemoveCalendarEntry([FromQuery]int calendarEntryId)
+        {
+            if(calendarEntryId <= 0)
+                return BadRequest();
+
+            var entry = (await _unitOfWork.CalendarRepository
+                .GetCalendarEntries(new CalendarEntryQuery{ Id = calendarEntryId }))
+                .FirstOrDefault();
+
+            if(entry == null)
+                return NotFound();
+
+            _unitOfWork.CalendarRepository.RemoveCalendarEntry(entry);
+
+            var result = await _unitOfWork.SaveAsync();
+
+            if(result)
+                return Ok();
+
+            return BadRequest();
         }
     }
 }
