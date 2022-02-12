@@ -10,9 +10,10 @@ namespace Workshop.API.Entities
         public User User { get; set; }
         public int SubtaskId { get; set; }
         public Subtask Subtask { get; set; }
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime DateOfCreation { get; set; } = DateTime.Now;
         public double Hours { get; set; }
         public string Description { get; set; }
+        public bool IsPlanned { get; set; }
     }
 }
