@@ -27,9 +27,12 @@ namespace Workshop.API.Controllers
 
         [HttpGet]
         [Route("employees")]
-        public ActionResult GetEmployees()
+        public async Task<ActionResult> GetEmployees()
         {
-            var users = _userManager.Users.ToList();
+            var users = await _userManager.Users
+                .Where(u => u.IsActive)
+                .ToListAsync();
+                
             var employees = _mapper.Map<EmployeeDto[]>(users);
 
             return Ok(employees);

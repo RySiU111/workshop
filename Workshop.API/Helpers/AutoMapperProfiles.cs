@@ -11,8 +11,20 @@ namespace Workshop.API.Helpers
         {
             CreateMap<RegisterDto, User>();
 
+            CreateMap<User, UserDetailsDto>();
+            CreateMap<UserDetailsDto, User>();
+
+            CreateMap<User, UserEditDto>();
+            CreateMap<UserEditDto, User>();
+
             CreateMap<EmployeeDetailsDto, User>();
             CreateMap<User, EmployeeDetailsDto>();
+
+            CreateMap<UserRole, UserRoleDto>();
+            CreateMap<UserRoleDto, UserRole>();
+
+            CreateMap<Role, RoleDto>();
+            CreateMap<RoleDto, Role>();
 
             CreateMap<EmployeeDto, User>();
             CreateMap<User, EmployeeDto>();

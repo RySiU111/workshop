@@ -12,6 +12,7 @@ namespace Workshop.API.Entities
         public double HourlyWage { get; set; }
         public DateTime DateOfEmployment { get; set; }
         public DateTime? DateOfTerminationOfEmployment { get; set; }
+        public bool IsActive { get; set; } = true;
         public ICollection<UserRole> UserRoles { get; set; }
         public List<KanbanComment> UserKanbanComments { get; set; }
         public List<KanbanTask> KanbanTasks { get; set; }
