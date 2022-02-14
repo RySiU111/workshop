@@ -194,7 +194,7 @@ namespace Workshop.API.Controllers
 
         [HttpDelete]
         [Route("user/role")]
-        public async Task<ActionResult> RemoveUserFromRole([FromBody] UserRoleAddDto addDto)
+        public async Task<ActionResult> RemoveUserFromRole([FromQuery] UserRoleAddDto addDto)
         {
             if (addDto.UserId <= 0 || string.IsNullOrEmpty(addDto.RoleName))
                 return BadRequest();
@@ -239,7 +239,7 @@ namespace Workshop.API.Controllers
 
         [HttpDelete]
         [Route("role")]
-        public async Task<ActionResult> RemoveRole([FromBody]RoleAddDto roleRemove)
+        public async Task<ActionResult> RemoveRole([FromQuery]RoleAddDto roleRemove)
         {
             if (string.IsNullOrEmpty(roleRemove.Name))
                 return BadRequest();

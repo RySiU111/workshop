@@ -9,6 +9,7 @@ namespace Workshop.API.Interfaces
         CarServiceRepository CarServiceRepository { get; }
         KanbanRepository KanbanRepository { get; }
         CalendarRepository CalendarRepository { get; }
+        InvoiceRepository InvoiceRepository { get; }
         Task<bool> SaveAsync();
     }
 }

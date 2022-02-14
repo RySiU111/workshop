@@ -17,6 +17,7 @@ namespace Workshop.API.Data
         public CarServiceRepository CarServiceRepository => new CarServiceRepository(_context);
         public KanbanRepository KanbanRepository => new KanbanRepository(_context);
         public CalendarRepository CalendarRepository => new CalendarRepository(_context);
+        public InvoiceRepository InvoiceRepository => new InvoiceRepository(_context);
 
         public async Task<bool> SaveAsync()
         {

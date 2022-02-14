@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -79,6 +80,21 @@ namespace Workshop.API.Controllers
             user.HourlyWage = employee.HourlyWage;
             user.DateOfEmployment = employee.DateOfEmployment;
             user.DateOfTerminationOfEmployment = employee.DateOfTerminationOfEmployment;
+            user.UserName = employee.UserName;
+            user.PhoneNumber = employee.PhoneNumber;
+            user.Email = employee.Email;
+
+
+            if (user.IsActive == true && employee.IsActive == false)
+            {
+                user.IsActive = employee.IsActive;
+                await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+            }
+            else if (user.IsActive == false && employee.IsActive == true)
+            {
+                user.IsActive = employee.IsActive;
+                await _userManager.SetLockoutEndDateAsync(user, null);
+            }
 
             var result = await _userManager.UpdateAsync(user);
 

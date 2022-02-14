@@ -78,6 +78,18 @@ namespace Workshop.API.Helpers
             CreateMap<CalendarEntry, CalendarEntryAddDto>();
             CreateMap<CalendarEntryAddDto, CalendarEntry>();
 
+            CreateMap<Invoice, InvoiceAddDto>();
+            CreateMap<InvoiceAddDto, Invoice>();
+
+            CreateMap<Invoice, InvoiceDetailsDto>();
+            CreateMap<InvoiceDetailsDto, Invoice>();
+
+            CreateMap<Invoice, InvoiceDto>()
+                .ForMember(x => x.CustomerNameAndSurname, x => x.MapFrom(i => $"{i.Customer.Name} {i.Customer.Surname}"))
+                .ForMember(x => x.UserNameAndSurname, x => x.MapFrom(i => $"{i.User.Name} {i.User.Surname}"))
+                .ForMember(x => x.KanbanTaskName, x => x.MapFrom(i => i.KanbanTask.Name));
+            CreateMap<InvoiceDto, Invoice>();
+
             CreateMap<KanbanComment, KanbanCommentDto>()
                 .ForMember(k => k.UserName, a => a.MapFrom(s => s.User.UserName));
             CreateMap<KanbanCommentDto, KanbanComment>();

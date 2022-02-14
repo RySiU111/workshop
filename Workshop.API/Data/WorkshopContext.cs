@@ -20,6 +20,7 @@ namespace Workshop.API.Data
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CalendarEntry> CalendarEntries { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
