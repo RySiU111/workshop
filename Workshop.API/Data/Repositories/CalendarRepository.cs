@@ -36,7 +36,7 @@ namespace Workshop.API.Data.Repositories
                 query = query.Where(c => c.SubtaskId == queryModel.SubtaskId);
 
             if(queryModel.UserId.HasValue)
-                query = query.Where(c => c.UserId == queryModel.UserId);
+                query = query.Where(c => c.UserId.HasValue && c.UserId.Value == queryModel.UserId);
 
             if(queryModel.DateFrom.HasValue)
                 query = query.Where(c => c.Date.Date >= queryModel.DateFrom.Value.Date);

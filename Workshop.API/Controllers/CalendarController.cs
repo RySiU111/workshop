@@ -48,8 +48,6 @@ namespace Workshop.API.Controllers
 
             var entryToAdd = _mapper.Map<CalendarEntry>(entry);
 
-            entryToAdd.IsPlanned = entryToAdd.Date.Date > DateTime.Now.Date;
-
             _unitOfWork.CalendarRepository.AddCalendarEntry(entryToAdd);
 
             var result = await _unitOfWork.SaveAsync();

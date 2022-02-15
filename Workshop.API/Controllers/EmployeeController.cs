@@ -31,7 +31,6 @@ namespace Workshop.API.Controllers
         public async Task<ActionResult> GetEmployees()
         {
             var users = await _userManager.Users
-                .Where(u => u.IsActive)
                 .ToListAsync();
                 
             var employees = _mapper.Map<EmployeeDto[]>(users);

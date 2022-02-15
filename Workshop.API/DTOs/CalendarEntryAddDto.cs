@@ -7,8 +7,7 @@ namespace Workshop.API.DTOs
     public class CalendarEntryAddDto
     {
         public int Id { get; set; }
-        [Required]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         [Required]
         public int SubtaskId { get; set; }
         [Required]
@@ -16,6 +15,7 @@ namespace Workshop.API.DTOs
         [Required]
         public double Hours { get; set; }
         public string Description { get; set; }
+        public bool IsPlanned { get; set; }
 
         public Models.ValidationResult Validate()
         { 

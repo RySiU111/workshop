@@ -6,7 +6,7 @@ namespace Workshop.API.DTOs
     public class CalendarEntryDto
     {
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public EmployeeDto User { get; set; }
         public int SubtaskId { get; set; }
         public SubtaskDto Subtask { get; set; }
