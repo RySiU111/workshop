@@ -9,6 +9,7 @@ namespace Workshop.API.Models
         public int? SubtaskId { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
+        public bool? IsPlanned { get; set; }
 
         public bool Validate()
         {

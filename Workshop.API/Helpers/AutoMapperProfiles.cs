@@ -56,7 +56,7 @@ namespace Workshop.API.Helpers
                     x => x.MapFrom(k => k.Subtasks
                         .Where(s => s.IsActive)
                         .Sum(s => s.CalendarEntries
-                            .Where(c => c.IsActive)
+                            .Where(c => c.IsActive && !c.IsPlanned)
                             .Sum(c => c.Hours))));
             CreateMap<KanbanTaskHistoryDto, KanbanTask>();
             
