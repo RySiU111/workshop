@@ -10,6 +10,7 @@ namespace Workshop.API.Interfaces
         KanbanRepository KanbanRepository { get; }
         CalendarRepository CalendarRepository { get; }
         InvoiceRepository InvoiceRepository { get; }
+        ReportsRepository ReportsRepository { get; }
         Task<bool> SaveAsync();
     }
 }
