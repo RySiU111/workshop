@@ -44,6 +44,9 @@ namespace Workshop.API.Data.Repositories
             if(queryModel.DateTo.HasValue)
                 query = query.Where(c => c.Date.Date <= queryModel.DateTo.Value.Date);
 
+            if(queryModel.IsPlanned.HasValue)
+                query = query.Where(c => c.IsPlanned == queryModel.IsPlanned);
+
             query = query
                 .Include(c => c.User)
                 .Include(c => c.Subtask);
