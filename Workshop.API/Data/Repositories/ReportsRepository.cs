@@ -19,8 +19,6 @@ namespace Workshop.API.Data.Repositories
             _userManager = userManager;
         }
 
-        //TODO: Employees graphic params from/to, free hours to busy hours
-
         public async Task<List<KanbanTasksReportResult>> GetKanbanTasksReport(ReportQuery queryModel)
         {
             var query = _context.KanbanTasks
