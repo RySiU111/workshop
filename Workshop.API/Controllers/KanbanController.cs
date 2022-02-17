@@ -92,7 +92,7 @@ namespace Workshop.API.Controllers
             var result = await _unitOfWork.SaveAsync();
 
             if(result)
-                return StatusCode(201);
+                return Ok(kanbanTaskToSave.Id);
 
             return StatusCode(500);
         }
