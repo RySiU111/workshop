@@ -15,7 +15,9 @@ namespace Workshop.API.DTOs
         public string UserNameAndSurname { get; set; }
         public DateTime DateOfCeation { get; set; }
         public double PriceBrutto { get; set; }
+        public double WorkHoursPriceBrutto { get; set; }
         public double PriceNetto { get; set; }
+        public double WorkHoursPriceNetto { get; set; }
         public double VAT { get; set; }
         public string InvoiceCode { get; set; } 
     }
