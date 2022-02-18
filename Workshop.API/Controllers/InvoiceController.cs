@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -35,9 +36,11 @@ namespace Workshop.API.Controllers
             //TODO: GET wokshop manhour cost (teraz tymczasowe rozwiązanie)
             kt.TotalWorkHoursCosts *= 100; 
 
-            invoice.PriceNetto = kt.TotalWorkHoursCosts;
+            invoice.WorkHoursPriceNetto = kt.TotalWorkHoursCosts;
             invoice.VAT = 23;
-            invoice.PriceBrutto = kt.TotalWorkHoursCosts + (kt.TotalWorkHoursCosts * invoice.VAT/100);
+            invoice.WorkHoursPriceBrutto = kt.TotalWorkHoursCosts + (kt.TotalWorkHoursCosts * invoice.VAT/100);
+            invoice.PriceNetto = kt.TotalBasketPrice + kt.TotalWorkHoursCosts;
+            invoice.PriceBrutto = invoice.PriceNetto + (invoice.PriceNetto * invoice.VAT/100);
 
             _unitOfWork.InvoiceRepository.AddInvoice(invoice);
 
