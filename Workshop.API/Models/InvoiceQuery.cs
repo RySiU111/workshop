@@ -7,6 +7,7 @@ namespace Workshop.API.Models
         public int? InvoiceId { get; set; }
         public int? UserId { get; set; }
         public int? KanbanTaskId { get; set; }
+        public string InvoiceCode { get; set; }
         public DateTime? DateFrom { get; set; }
         public DateTime? DateTo { get; set; }
 

@@ -36,6 +36,9 @@ namespace Workshop.API.Data.Repositories
             if(queryModel.InvoiceId.HasValue)
                 query = query.Where(c => c.Id == queryModel.InvoiceId);
 
+            if(!string.IsNullOrEmpty(queryModel.InvoiceCode))
+                query = query.Where(c => c.InvoiceCode.Contains(queryModel.InvoiceCode));
+
             if(queryModel.KanbanTaskId.HasValue)
                 query = query.Where(c => c.KanbanTaskId == queryModel.KanbanTaskId);
 
