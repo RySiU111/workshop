@@ -9,6 +9,7 @@ namespace Workshop.API.DTOs
         public int? UserId { get; set; } = null;
         public string Name { get; set; }
         public double ManHour { get; set; }
+        public double TotalCalendarHours { get; set; }
         public SubtaskStatus Status { get; set; }
         public EmployeeDto User { get; set; }
     }
