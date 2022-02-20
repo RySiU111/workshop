@@ -60,7 +60,11 @@ namespace Workshop.API.Helpers
                             .Sum(c => c.Hours))));
             CreateMap<KanbanTaskHistoryDto, KanbanTask>();
             
-            CreateMap<Subtask, SubtaskDto>();
+            CreateMap<Subtask, SubtaskDto>()
+                .ForMember(s => s.TotalCalendarHours, 
+                    x => x.MapFrom(s => s.CalendarEntries
+                        .Where(c => c.IsActive && !c.IsPlanned)
+                        .Sum(c => c.Hours)));
             CreateMap<SubtaskDto, Subtask>();
 
             CreateMap<BasketItem, BasketItemDto>();

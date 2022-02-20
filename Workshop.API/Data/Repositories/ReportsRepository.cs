@@ -4,11 +4,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Workshop.API.Entities;
+using Workshop.API.Interfaces;
 using Workshop.API.Models;
 
 namespace Workshop.API.Data.Repositories
 {
-    public class ReportsRepository
+    public class ReportsRepository : IReportsRepository
     {
         private readonly WorkshopContext _context;
         private readonly UserManager<User> _userManager;
@@ -107,6 +108,24 @@ namespace Workshop.API.Data.Repositories
                     .ToList()
                 
             }).ToList();
+        }
+
+        public async Task<List<KanbanTaskYearResult>> GetKanbanTaskYearReport(int year)
+        {
+            //Miesiąc z danego roku
+            //count z != status.Done
+            //cunt == status.Done
+            var kanbanTaskYearResults = await _context.KanbanTasks
+                .Where(k => k.IsActive && k.DateOfCarDelivery.Year == year)
+                .GroupBy(k => k.DateOfCarDelivery.Month)
+                .Select(k => new KanbanTaskYearResult
+                {
+                    Month = k.Key,
+                    CountDone = k.Count(x => x.Status == KanbanTaskStatus.Done),
+                    CountNewAndInProgress = k.Count(x => x.Status != KanbanTaskStatus.Done)
+                }).ToListAsync();
+
+            return kanbanTaskYearResults;
         }
     }
 }

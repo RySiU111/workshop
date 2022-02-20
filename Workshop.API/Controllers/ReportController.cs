@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.Interfaces;
@@ -36,6 +37,18 @@ namespace Workshop.API.Controllers
                 return BadRequest();
 
             var result = await _unitOfWork.ReportsRepository.GetEmployeesReport(query);
+
+            return Ok(result);
+        }
+
+        [HttpGet]
+        [Route("kanbanTaskYear")]
+        public async Task<ActionResult> GetKanbanTaskYearReport([FromQuery]int year)
+        {
+            if(year <= 0 || year > DateTime.Now.Year)
+                return BadRequest();
+
+            var result = await _unitOfWork.ReportsRepository.GetKanbanTaskYearReport(year);
 
             return Ok(result);
         }
