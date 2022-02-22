@@ -150,7 +150,7 @@ namespace Workshop.API.Data.Repositories
         public async Task<List<Subtask>> GetSubtasks(int kanbanTaskId)
         {
             var subtasks = await _context.Subtasks
-                .Where(s => s.KanbanTaskId == kanbanTaskId)
+                .Where(s => s.KanbanTaskId == kanbanTaskId && s.IsActive)
                 .ToListAsync();
 
             return subtasks;
