@@ -33,7 +33,7 @@ namespace Workshop.API.Services
                 var uploadParams = new ImageUploadParams
                 {
                     File = new FileDescription(file.FileName, str),  
-                    Transformation = new Transformation().Quality(10)
+                    Transformation = new Transformation().Quality(30)
                 };
 
                 uploadResult = await _cloudinary.UploadAsync(uploadParams);
@@ -44,6 +44,9 @@ namespace Workshop.API.Services
 
         public async Task<DeletionResult> DeletePhotoAsync(string publicId)
         {
+            if(string.IsNullOrEmpty(publicId))
+                return new DeletionResult();
+
             var deleteParams =  new DeletionParams(publicId);
 
             var result = await _cloudinary.DestroyAsync(deleteParams);
