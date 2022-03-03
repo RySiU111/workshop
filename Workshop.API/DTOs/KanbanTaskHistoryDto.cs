@@ -15,7 +15,7 @@ namespace Workshop.API.DTOs
         public DateTime DateOfActualRealization { get; set; }
         public List<SubtaskDto> Subtasks { get; set; }
         public List<BasketItemDto> BasketItems { get; set; }
-        public double TotalBasketPrice { get => BasketItems.Sum(bi => bi.Price * bi.Amount); }
+        public double TotalBasketPrice { get => BasketItems.Where(bi => bi.IsActive).Sum(bi => bi.Price * bi.Amount); }
         public double TotalWorkHoursCosts { get; set; }
         public double PlannedWorkHoursCosts { get; set; }
     }
