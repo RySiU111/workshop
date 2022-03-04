@@ -54,7 +54,8 @@ namespace Workshop.API.Data.Repositories
             query = query
                 .Include(c => c.KanbanTask)
                 .Include(c => c.User)
-                .Include(c => c.Customer);
+                .Include(c => c.Customer)
+                .OrderByDescending(c => c.Number);
 
             return await query.ToListAsync();
         }
