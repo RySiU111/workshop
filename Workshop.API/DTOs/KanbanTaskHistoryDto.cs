@@ -12,7 +12,7 @@ namespace Workshop.API.DTOs
         public int CustomerId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public DateTime DateOfActualRealization { get; set; }
+        public DateTime DateOfActualRealizatoin { get; set; }
         public List<SubtaskDto> Subtasks { get; set; }
         public List<BasketItemDto> BasketItems { get; set; }
         public double TotalBasketPrice { get => BasketItems.Where(bi => bi.IsActive).Sum(bi => bi.Price * bi.Amount); }
