@@ -13,6 +13,7 @@ using Workshop.API.Models;
 
 namespace Workshop.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class KanbanController : Controller
@@ -46,7 +47,6 @@ namespace Workshop.API.Controllers
             {
                 var kanbanTasks = await _unitOfWork.KanbanRepository.GetCarHistory(query.VIN);
                 var result = _mapper.Map<List<KanbanTaskHistoryDto>>(kanbanTasks);
-                //TODO: GET wokshop manhour cost (teraz tymczasowe rozwiązanie)
                 result.ForEach(r => { r.TotalWorkHoursCosts *= 100; r.PlannedWorkHoursCosts *= 100;});
                 return Ok(result);
             }

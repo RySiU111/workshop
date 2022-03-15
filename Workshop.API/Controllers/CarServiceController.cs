@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
@@ -81,6 +82,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("serviceRequest")]
         public async Task<ActionResult> EditServiceRequest([FromBody]ServiceRequest serviceRequest)
@@ -98,6 +100,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
         [HttpPut]
         [Route("serviceRequest/reject")]
         public async Task<ActionResult> RejectServiceRequest([FromQuery]int id)
@@ -121,6 +124,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("serviceRequest")]
         public async Task<IActionResult> DeleteServiceRequest([FromQuery]int serviceRequestId)

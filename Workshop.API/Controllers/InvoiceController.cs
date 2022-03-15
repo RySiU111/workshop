@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Workshop.API.DTOs;
 using Workshop.API.Entities;
@@ -9,6 +10,7 @@ using Workshop.API.Models;
 
 namespace Workshop.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class InvoiceController : Controller
@@ -33,7 +35,6 @@ namespace Workshop.API.Controllers
             var kanbanTask = await _unitOfWork.KanbanRepository.GetKanbanTask(invoice.KanbanTaskId);
 
             var kt = _mapper.Map<KanbanTaskHistoryDto>(kanbanTask);
-            //TODO: GET wokshop manhour cost (teraz tymczasowe rozwiązanie)
             kt.TotalWorkHoursCosts *= 100; 
 
             invoice.WorkHoursPriceNetto = kt.TotalWorkHoursCosts;

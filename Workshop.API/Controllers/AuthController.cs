@@ -98,6 +98,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500, result.Errors);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("users")]
         public async Task<ActionResult> GetUsers()
@@ -114,6 +115,7 @@ namespace Workshop.API.Controllers
             return Ok(usersToReturn);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("user")]
         public async Task<ActionResult> RemoveUser([FromQuery] int userId)
@@ -136,6 +138,7 @@ namespace Workshop.API.Controllers
             return BadRequest(new[] { result.Errors, lockResult.Errors });
         }
 
+        [Authorize]
         [HttpPut]
         [Route("user")]
         public async Task<ActionResult> EditUser([FromBody] UserEditDto userDto)
@@ -169,9 +172,7 @@ namespace Workshop.API.Controllers
             return BadRequest(result.Errors);
         }
 
-        //TODO: Aktywacja mailem
-        //TODO: Przypomnienie hasła
-
+        [Authorize]
         [HttpPost]
         [Route("user/role")]
         public async Task<ActionResult> AddUserToRole([FromBody] UserRoleAddDto addDto)
@@ -192,6 +193,7 @@ namespace Workshop.API.Controllers
             return BadRequest(result.Errors);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("user/role")]
         public async Task<ActionResult> RemoveUserFromRole([FromQuery] UserRoleAddDto addDto)
@@ -212,6 +214,7 @@ namespace Workshop.API.Controllers
             return BadRequest(result.Errors);
         }
 
+        [Authorize]
         [HttpGet]
         [Route("roles")]
         public async Task<ActionResult> GetRoles()
@@ -222,6 +225,7 @@ namespace Workshop.API.Controllers
             return Ok(rolesToReturn);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("role")]
         public async Task<ActionResult> AddRole([FromBody]RoleAddDto roleAdd)
@@ -237,6 +241,7 @@ namespace Workshop.API.Controllers
             return BadRequest(result.Errors);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("role")]
         public async Task<ActionResult> RemoveRole([FromQuery]RoleAddDto roleRemove)

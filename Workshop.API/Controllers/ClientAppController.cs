@@ -31,6 +31,7 @@ namespace Workshop.API.Controllers
             return Ok(componentConfig);
         }
 
+        [Authorize]
         [HttpPost]
         [Route("config")]
         public async Task<ActionResult<ComponentConfig>> AddComponentConfig([FromBody]ComponentConfig componentConfig)
@@ -38,7 +39,6 @@ namespace Workshop.API.Controllers
             if(componentConfig == null)
                 return BadRequest();
 
-            //TODO: Validation
             _unitOfWork.ClientAppRepository.AddComponentConfig(componentConfig);
 
             var result = await _unitOfWork.SaveAsync();
@@ -49,6 +49,7 @@ namespace Workshop.API.Controllers
             return StatusCode(500);
         }
 
+        [Authorize]
         [HttpDelete]
         [Route("config")]
         public async Task<ActionResult<ComponentConfig>> RemoveComponentConfig([FromBody]ComponentConfig componentConfig)
@@ -74,7 +75,6 @@ namespace Workshop.API.Controllers
             if(componentConfig == null)
                 return BadRequest();
 
-            //TODO: Validation
             _unitOfWork.ClientAppRepository.EditComponentConfig(componentConfig);
 
             var result = await _unitOfWork.SaveAsync();
